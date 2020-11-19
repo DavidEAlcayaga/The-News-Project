@@ -1,0 +1,55 @@
+@startuml
+package services #95F5ED{
+  interface Contracts {
+  retrieveNews(size: Integer): List<News>
+  save(news: News): void
+  }
+  class TestContractsImpl {
+    - theNews: List<News>
+    + ContractsImplFaker()
+  }
+}
+package model #D3F5C6{
+  class News <<entity>>{
+    - id: Long
+    - title: String
+    - source: String
+    - author: String
+    - url: String
+    - urlImage: String
+    - description: String
+    - content: String
+    + News(..)
+    + getId(): String
+    + getTitle(): String
+    + getSource(): String
+    + getAuthor(): String
+    + getUrl(): String
+    + getUrlImage(): String
+    + getDescription(): String
+    + getContent(): String
+    + getPublishedAt(): ZonedDateTime
+  }
+}
+package org.threeten.bp #F5B0AE{
+  class ZonedDateTime{
+  ...
+  }
+}
+package com.github.javafaker #F5B0AE{
+  class Faker{
+  ...
+  }
+}
+package org.slf4j #F5B0AE{
+  class Logger{
+  ...
+  }
+}
+ZonedDateTime <--* News: - publishedAt
+Contracts ..> News: <<use>>
+Contracts <|.. TestContractsImpl
+TestContractsImpl ..> com.github.javafaker: <<use>>
+TestContractsImpl *--> org.slf4j: -log
+
+@enduml
