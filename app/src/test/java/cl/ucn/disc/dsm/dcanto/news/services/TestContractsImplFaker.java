@@ -12,8 +12,6 @@ package cl.ucn.disc.dsm.dcanto.news.services;
 
 import cl.ucn.disc.dsm.dcanto.news.model.News;
 import com.github.javafaker.Faker;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -94,7 +92,7 @@ public class TestContractsImplFaker {
         faker.internet().avatar(),
         faker.harryPotter().quote(),
         faker.lorem().paragraph(3),
-        ZonedDateTime.now(ZoneId.of("-3"))
+        org.threeten.bp.ZonedDateTime.now(org.threeten.bp.ZoneId.of("-3"))
     );
 
     // Call the method.
