@@ -22,48 +22,48 @@ public class News {
   /**
    * Unique ID.
    */
-  private Long id;
+  private final Long id;
 
   /**
    * The Title.
    * Restrictions: not null, size > 2.
    */
-  private String title;
+  private final String title;
 
   /**
    * The Source.
    */
-  private String source;
+  private final String source;
 
   /**
    * The Author.
    */
-  private String author;
+  private final String author;
 
   /**
    * The URL.
    */
-  private String url;
+  private final String url;
 
   /**
    * The URL of image.
    */
-  private String urlImage;
+  private final String urlImage;
 
   /**
    * The Description.
    */
-  private String description;
+  private final String description;
 
   /**
    * The Content.
    */
-  private String content;
+  private final String content;
 
   /**
    * The Date of publish.
    */
-  private ZonedDateTime publishedAt;
+  private final ZonedDateTime publishedAt;
 
   /**
    * The Constructor.
@@ -88,6 +88,21 @@ public class News {
     this.description = description;
     this.content = content;
     this.publishedAt = publishedAt;
+  }
+
+  /**
+   * The null Constructor.
+   */
+  public News(){
+    this.id = null;
+    this.title = null;
+    this.source = null;
+    this.author = null;
+    this.url = null;
+    this.urlImage = null;
+    this.description = null;
+    this.content = null;
+    this.publishedAt = null;
   }
 
   /**
