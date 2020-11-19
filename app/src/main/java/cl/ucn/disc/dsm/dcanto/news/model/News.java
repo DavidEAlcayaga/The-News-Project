@@ -10,7 +10,7 @@
 
 package cl.ucn.disc.dsm.dcanto.news.model;
 
-import java.time.ZonedDateTime;
+import org.threeten.bp.ZonedDateTime;
 
 /**
  * The Domain model: News.
@@ -63,7 +63,7 @@ public class News {
   /**
    * The Date of publish.
    */
-  private final ZonedDateTime publishedAt;
+  private final org.threeten.bp.ZonedDateTime publishedAt;
 
   /**
    * The Constructor.
@@ -78,16 +78,25 @@ public class News {
    * @param publishedAt
    */
   public News(Long id, String title, String source, String author, String url,
-      String urlImage, String description, String content, ZonedDateTime publishedAt) {
+      String urlImage, String description, String content, org.threeten.bp.ZonedDateTime publishedAt) {
     this.id = id;
+    validateNumbers(id.toString());
     this.title = title;
+    validateNullEmpty(this.title);
     this.source = source;
+    validateNullEmpty(this.source);
     this.author = author;
+    validateWords(this.author);
     this.url = url;
+    validateNullEmpty(this.url);
     this.urlImage = urlImage;
+    validateNullEmpty(this.urlImage);
     this.description = description;
+    validateNullEmpty(this.description);
     this.content = content;
+    validateNullEmpty(this.content);
     this.publishedAt = publishedAt;
+    validateDateTime(this.publishedAt);
   }
 
   /**
@@ -166,5 +175,77 @@ public class News {
    */
   public ZonedDateTime getPublishedAt() {
     return publishedAt;
+  }
+
+  /**
+   * Validate if the text only has words
+   * @param text
+   * @return state
+   */
+  private boolean validateWords(String text){
+    try{
+      if((!text.equals(""))
+          && (text != null)
+          && (text.matches("^[a-zA-Z]*$"))){
+        return true;
+      }else{
+        throw new Exception("Hasn't alphabetical letters");
+      }
+    }
+    catch (Exception e){
+      System.out.println("Error: contains no letters char or null value");
+      return false;
+    }
+  }
+
+  /**
+   * Validate if number only has numbers
+   * @param number
+   * @return
+   */
+  private boolean validateNumbers(String number){
+    try{
+      if (number!=null){}else{throw new Exception("null value");}
+      Integer numberAux = Integer.parseInt(number);
+
+      return true;
+    }
+    catch (Exception e){
+      System.out.println("Error: contains letters or null value");
+      return false;
+    }
+  }
+
+  /**
+   * Validate if date has format ZonedDateTime
+   * @param date
+   * @return
+   */
+  private boolean validateDateTime(ZonedDateTime date){
+    try{
+      if (!(this.publishedAt instanceof org.threeten.bp.ZonedDateTime)){
+        throw new Exception("Not format ZonedDateTime");
+      }else{
+        return true;
+      }
+    }
+    catch (Exception e){
+      System.out.println("Error: not ZonedDateTime format");
+      return false;
+    }
+  }
+
+  private boolean validateNullEmpty(String aux){
+    try{
+      if(aux != null && aux != ""){
+        return true;
+      }else{
+        throw new Exception("Is empty or null");
+      }
+    }
+    catch (Exception e){
+      System.out.println("Error: null or empty value");
+      return false;
+    }
   }
 }
