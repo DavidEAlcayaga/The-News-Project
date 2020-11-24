@@ -11,6 +11,7 @@
 package cl.ucn.disc.dsm.dcanto.news.model;
 
 import org.threeten.bp.ZonedDateTime;
+import net.openhft.hashing.LongHashFunction;
 
 /**
  * The Domain model: News.
@@ -67,7 +68,6 @@ public class News {
 
   /**
    * The Constructor.
-   * @param id
    * @param title
    * @param source
    * @param author
@@ -77,10 +77,8 @@ public class News {
    * @param content
    * @param publishedAt
    */
-  public News(Long id, String title, String source, String author, String url,
+  public News(String title, String source, String author, String url,
       String urlImage, String description, String content, org.threeten.bp.ZonedDateTime publishedAt) {
-    this.id = id;
-    validateNumbers(id.toString());
     this.title = title;
     validateNullEmpty(this.title);
     this.source = source;
@@ -97,6 +95,11 @@ public class News {
     validateNullEmpty(this.content);
     this.publishedAt = publishedAt;
     validateDateTime(this.publishedAt);
+    StringBuilder strBuild = new StringBuilder();
+    strBuild.append(this.title);
+    strBuild.append(this.source);
+    strBuild.append(this.author);
+    this.id = LongHashFunction.xx().hashChars(strBuild);
   }
 
   /**
