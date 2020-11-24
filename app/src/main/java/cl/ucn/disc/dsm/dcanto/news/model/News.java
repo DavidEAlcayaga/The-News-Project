@@ -10,8 +10,10 @@
 
 package cl.ucn.disc.dsm.dcanto.news.model;
 
-import org.threeten.bp.ZonedDateTime;
 import net.openhft.hashing.LongHashFunction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.threeten.bp.ZonedDateTime;
 
 /**
  * The Domain model: News.
@@ -19,6 +21,10 @@ import net.openhft.hashing.LongHashFunction;
  * @author David Canto-Alcayaga.
  */
 public class News {
+  /**
+   * The Logger.
+   */
+  private static final Logger log = LoggerFactory.getLogger(News.class);
 
   /**
    * Unique ID.
@@ -79,22 +85,116 @@ public class News {
    */
   public News(String title, String source, String author, String url,
       String urlImage, String description, String content, org.threeten.bp.ZonedDateTime publishedAt) {
-    this.title = title;
-    validateNullEmpty(this.title);
-    this.source = source;
-    validateNullEmpty(this.source);
-    this.author = author;
-    validateWords(this.author);
-    this.url = url;
-    validateNullEmpty(this.url);
-    this.urlImage = urlImage;
-    validateNullEmpty(this.urlImage);
-    this.description = description;
-    validateNullEmpty(this.description);
-    this.content = content;
-    validateNullEmpty(this.content);
-    this.publishedAt = publishedAt;
-    validateDateTime(this.publishedAt);
+
+    //Title validation
+    if(validateNullEmpty(title)){
+      if (title.length() >= 2) {
+        this.title = title;
+      } else {
+        log.debug("News: title length cannot be less than 2");
+        //FIXME complete validation
+        this.title = null;
+      }
+    }else{
+      log.debug("News: title is null or empty");
+      //FIXME complete validation
+      this.title = null;
+    }
+
+    //Source validation
+    if(validateNullEmpty(source)){
+      if (source.length() >= 2) {
+        this.source = source;
+      } else {
+        log.debug("News: source length cannot be less than 2");
+        //FIXME complete validation
+        this.source = null;
+      }
+    }else{
+      log.debug("News: source is null or empty");
+      //FIXME complete validation
+      this.source = null;
+    }
+
+    //Author validation
+    if(validateNullEmpty(author)){
+      if(validateWords(author)){
+        if(author.length()>=2){
+          this.author = author;
+        }else{
+          log.debug("News: author length cannot be less than 2");
+          //FIXME complete validation
+          this.author = null;
+        }
+      }else{
+        log.debug("News: author must have only letters");
+        //FIXME complete validation
+        this.author = null;
+      }
+    }else{
+      log.debug("News: author is null or empty");
+      //FIXME complete validation
+      this.author = null;
+    }
+
+    //Url validation
+    if(validateNullEmpty(url)){
+      this.url = url;
+    }else{
+      log.debug("News: url is null or empty");
+      //FIXME complete validation
+      this.url = null;
+    }
+
+    //Url Image validation
+    if(validateNullEmpty(urlImage)){
+      this.urlImage = urlImage;
+    }else{
+      log.debug("News: image is null or empty");
+      //FIXME complete validation
+      this.urlImage = null;
+    }
+
+    //Description validation
+    if(validateNullEmpty(description)){
+      if(description.length()>=2){
+        this.description = description;
+      }else{
+        log.debug("News: description length cannot be less than 2");
+        //FIXME complete validation
+        this.description = null;
+      }
+    }else{
+      log.debug("News: description is null or empty");
+      //FIXME complete validation
+      this.description = null;
+    }
+
+    //Content validation
+    if(validateNullEmpty(content)){
+      this.content = content;
+    }else{
+      log.debug("News: content is null or empty");
+      //FIXME complete validation
+      this.content = null;
+    }
+
+    //Date validation
+    if(validateNullEmpty(publishedAt.toString())){
+      if(validateDateTime(publishedAt)){
+        this.publishedAt = publishedAt;
+      }else{
+        log.debug("News: date doesn't comply with the format");
+        //FIXME complete validation
+        this.publishedAt = null;
+      }
+    }else{
+      log.debug("News: date is null or empty");
+      //FIXME complete validation
+      this.publishedAt = null;
+    }
+
+    //Hashing for id assignation
     StringBuilder strBuild = new StringBuilder();
     strBuild.append(this.title);
     strBuild.append(this.source);
@@ -192,11 +292,11 @@ public class News {
           && (text.matches("^[a-zA-Z]*$"))){
         return true;
       }else{
-        throw new Exception("Hasn't alphabetical letters");
+        throw new Exception("News: hasn't alphabetical letters");
       }
     }
     catch (Exception e){
-      System.out.println("Error: contains no letters char or null value");
+      log.debug("News: contains no letters char or null value");
       return false;
     }
   }
@@ -210,11 +310,10 @@ public class News {
     try{
       if (number!=null){}else{throw new Exception("null value");}
       Integer numberAux = Integer.parseInt(number);
-
       return true;
     }
     catch (Exception e){
-      System.out.println("Error: contains letters or null value");
+      System.out.println("News: contains letters or null value");
       return false;
     }
   }
@@ -227,13 +326,13 @@ public class News {
   private boolean validateDateTime(ZonedDateTime date){
     try{
       if (!(this.publishedAt instanceof org.threeten.bp.ZonedDateTime)){
-        throw new Exception("Not format ZonedDateTime");
+        throw new Exception("News: not format ZonedDateTime");
       }else{
         return true;
       }
     }
     catch (Exception e){
-      System.out.println("Error: not ZonedDateTime format");
+      System.out.println("News: not ZonedDateTime format");
       return false;
     }
   }
@@ -243,11 +342,11 @@ public class News {
       if(aux != null && aux != ""){
         return true;
       }else{
-        throw new Exception("Is empty or null");
+        throw new Exception("News: is empty or null");
       }
     }
     catch (Exception e){
-      System.out.println("Error: null or empty value");
+      System.out.println("News: null or empty value");
       return false;
     }
   }
