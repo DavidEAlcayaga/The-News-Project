@@ -84,7 +84,6 @@ public class TestContractsImplFaker {
 
     // Create a news.
     News news = new News(
-        Integer.toUnsignedLong((contracts.retrieveNews(5).size())+1),
         faker.book().title(),
         faker.name().username(),
         faker.name().fullName(),

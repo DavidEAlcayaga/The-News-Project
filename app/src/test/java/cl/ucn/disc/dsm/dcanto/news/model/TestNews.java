@@ -34,7 +34,6 @@ public class TestNews {
   @Test
   public static void testNews(){
     News news = new News(
-        Integer.toUnsignedLong(1),
         faker.book().title(),
         faker.name().username(),
         faker.name().fullName(),
@@ -46,7 +45,6 @@ public class TestNews {
     );
 
     News news2 = new News(
-        null,
         null,
         null,
         null,
