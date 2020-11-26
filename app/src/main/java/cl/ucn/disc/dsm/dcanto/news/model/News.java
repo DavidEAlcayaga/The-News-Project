@@ -10,6 +10,7 @@
 
 package cl.ucn.disc.dsm.dcanto.news.model;
 
+import cl.ucn.disc.dsm.dcanto.news.utils.Validation;
 import net.openhft.hashing.LongHashFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,115 +85,40 @@ public class News {
    * @param publishedAt
    */
   public News(String title, String source, String author, String url,
-      String urlImage, String description, String content, org.threeten.bp.ZonedDateTime publishedAt) {
+      String urlImage, String description, String content, org.threeten.bp.ZonedDateTime
+      publishedAt) {
 
-    //Title validation
-    if(validateNullEmpty(title)){
-      if (title.length() >= 2) {
-        this.title = title;
-      } else {
-        log.debug("News: title length cannot be less than 2");
-        //FIXME complete validation
-        this.title = null;
-      }
-    }else{
-      log.debug("News: title is null or empty");
-      //FIXME complete validation
-      this.title = null;
-    }
+    // Title validation
+    Validation.minSize(title,2,"title");
+    this.title = title;
 
     //Source validation
-    if(validateNullEmpty(source)){
-      if (source.length() >= 2) {
-        this.source = source;
-      } else {
-        log.debug("News: source length cannot be less than 2");
-        //FIXME complete validation
-        this.source = null;
-      }
-    }else{
-      log.debug("News: source is null or empty");
-      //FIXME complete validation
-      this.source = null;
-    }
+    Validation.minSize(source,2,"source");
+    this.source = source;
 
     //Author validation
-    if(validateNullEmpty(author)){
-      if(validateWords(author)){
-        if(author.length()>=2){
-          this.author = author;
-        }else{
-          log.debug("News: author length cannot be less than 2");
-          //FIXME complete validation
-          this.author = null;
-        }
-      }else{
-        log.debug("News: author must have only letters");
-        //FIXME complete validation
-        this.author = null;
-      }
-    }else{
-      log.debug("News: author is null or empty");
-      //FIXME complete validation
-      this.author = null;
-    }
+    Validation.minSize(author,2,"author");
+    this.author = author;
 
     //Url validation
-    if(validateNullEmpty(url)){
-      this.url = url;
-    }else{
-      log.debug("News: url is null or empty");
-      //FIXME complete validation
-      this.url = null;
-    }
+    Validation.notNull(url,"url");
+    this.url = url;
 
     //Url Image validation
-    if(validateNullEmpty(urlImage)){
-      this.urlImage = urlImage;
-    }else{
-      log.debug("News: image is null or empty");
-      //FIXME complete validation
-      this.urlImage = null;
-    }
+    Validation.notNull(urlImage,"urlImage");
+    this.urlImage = urlImage;
 
     //Description validation
-    if(validateNullEmpty(description)){
-      if(description.length()>=2){
-        this.description = description;
-      }else{
-        log.debug("News: description length cannot be less than 2");
-        //FIXME complete validation
-        this.description = null;
-      }
-    }else{
-      log.debug("News: description is null or empty");
-      //FIXME complete validation
-      this.description = null;
-    }
+    Validation.minSize(description,2,"description");
+    this.description = description;
 
     //Content validation
-    if(validateNullEmpty(content)){
-      this.content = content;
-    }else{
-      log.debug("News: content is null or empty");
-      //FIXME complete validation
-      this.content = null;
-    }
+    Validation.notNull(content,"content");
+    this.content = content;
 
     //Date validation
-    if(validateNullEmpty(publishedAt.toString())){
-      if(validateDateTime(publishedAt)){
-        this.publishedAt = publishedAt;
-      }else{
-        log.debug("News: date doesn't comply with the format");
-        //FIXME complete validation
-        this.publishedAt = null;
-      }
-    }else{
-      log.debug("News: date is null or empty");
-      //FIXME complete validation
-      this.publishedAt = null;
-    }
+    Validation.notNull(publishedAt,"published date");
+    this.publishedAt = publishedAt;
 
     //Hashing for id assignation
     StringBuilder strBuild = new StringBuilder();
@@ -278,76 +204,5 @@ public class News {
    */
   public ZonedDateTime getPublishedAt() {
     return publishedAt;
-  }
-
-  /**
-   * Validate if the text only has words
-   * @param text
-   * @return state
-   */
-  private boolean validateWords(String text){
-    try{
-      if((!text.equals(""))
-          && (text != null)
-          && (text.matches("^[a-zA-Z]*$"))){
-        return true;
-      }else{
-        throw new Exception("News: hasn't alphabetical letters");
-      }
-    }
-    catch (Exception e){
-      log.debug("News: contains no letters char or null value");
-      return false;
-    }
-  }
-
-  /**
-   * Validate if number only has numbers
-   * @param number
-   * @return
-   */
-  private boolean validateNumbers(String number){
-    try{
-      if (number!=null){}else{throw new Exception("null value");}
-      Integer numberAux = Integer.parseInt(number);
-      return true;
-    }
-    catch (Exception e){
-      System.out.println("News: contains letters or null value");
-      return false;
-    }
-  }
-
-  /**
-   * Validate if date has format ZonedDateTime
-   * @param date
-   * @return
-   */
-  private boolean validateDateTime(ZonedDateTime date){
-    try{
-      if (!(this.publishedAt instanceof org.threeten.bp.ZonedDateTime)){
-        throw new Exception("News: not format ZonedDateTime");
-      }else{
-        return true;
-      }
-    }
-    catch (Exception e){
-      System.out.println("News: not ZonedDateTime format");
-      return false;
-    }
-  }
-
-  private boolean validateNullEmpty(String aux){
-    try{
-      if(aux != null && aux != ""){
-        return true;
-      }else{
-        throw new Exception("News: is empty or null");
-      }
-    }
-    catch (Exception e){
-      System.out.println("News: null or empty value");
-      return false;
-    }
   }
 }
