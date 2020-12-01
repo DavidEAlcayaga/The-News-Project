@@ -51,6 +51,9 @@ android {
 
 dependencies {
 
+    // LeakCanary
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.5'
+
     // JUnit 5
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
@@ -85,4 +88,16 @@ dependencies {
     implementation "com.google.code.gson:gson:2.8.6"
     implementation "com.squareup.okhttp3:okhttp:4.9.0"
 
+    // Start ACRA Library:
+
+    // ACRA version
+    def acraVersion = '5.7.0'
+    // Sender: HTTP
+    implementation "ch.acra:acra-http:$acraVersion"
+    // Interaction: Notification
+    implementation "ch.acra:acra-notification:$acraVersion"
+    // Plugin: Limiter
+    implementation "ch.acra:acra-limiter:$acraVersion"
+
+    // Ends ACRA Library
 }
