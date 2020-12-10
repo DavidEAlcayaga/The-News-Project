@@ -12,8 +12,8 @@ package cl.ucn.disc.dsm.dcanto.news.services;
 
 import cl.ucn.disc.dsm.dcanto.news.model.News;
 import com.github.javafaker.Faker;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import org.threeten.bp.ZoneId;
+import org.threeten.bp.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -44,7 +44,6 @@ public class ContractsImplFaker implements Contracts {
 
     for(int i = 0 ; i < 5 ; i++){
       this.theNews.add(new News(
-          Integer.toUnsignedLong(i),
           faker.book().title(),
           faker.name().username(),
           faker.name().fullName(),
@@ -52,7 +51,7 @@ public class ContractsImplFaker implements Contracts {
           faker.internet().avatar(),
           faker.harryPotter().quote(),
           faker.lorem().paragraph(3),
-          ZonedDateTime.now(ZoneId.of("-3"))
+          ZonedDateTime.now(ZoneId.of("GMT-3"))
       ));
     }
   }
