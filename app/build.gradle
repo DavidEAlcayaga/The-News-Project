@@ -69,7 +69,8 @@ dependencies {
 
     // SLF4J
     implementation 'org.slf4j:slf4j-api:1.7.30'
-    implementation 'org.slf4j:slf4j-simple:1.7.30'
+    implementation 'com.github.tony19:logback-android:2.0.0'
+    testImplementation 'org.slf4j:slf4j-simple:1.7.30'
 
     // Java Faker
     implementation 'com.github.javafaker:javafaker:1.0.2'
@@ -89,7 +90,6 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:4.9.0"
 
     // Start ACRA Library:
-
     // ACRA version
     def acraVersion = '5.7.0'
     // Sender: HTTP
@@ -98,6 +98,11 @@ dependencies {
     implementation "ch.acra:acra-notification:$acraVersion"
     // Plugin: Limiter
     implementation "ch.acra:acra-limiter:$acraVersion"
-
     // Ends ACRA Library
+
+    // FastAdapter + RecyclerView
+    implementation 'com.mikepenz:fastadapter:3.3.1'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'com.mikepenz:fastadapter-commons:3.3.1'
+    implementation 'com.mikepenz:fastadapter-extensions-expandable:3.3.1'
 }
