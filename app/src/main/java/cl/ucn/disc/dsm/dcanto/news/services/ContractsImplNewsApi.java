@@ -12,6 +12,11 @@ package cl.ucn.disc.dsm.dcanto.news.services;
 
 import com.kwabenaberko.newsapilib.models.Article;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -65,14 +70,38 @@ public class ContractsImplNewsApi implements Contracts {
     // Warning message?
     boolean needFix = false;
     // Fix the author null :(
-    if(article.getAuthor() == null) {
-      article.setAuthor("No author*");
+    if(article.getAuthor() == null || article.getAuthor().length() == 0) {
+      article.setAuthor("No author.");
       needFix = true;
     }
 
     // Fix more restrictions :(
     if (article.getDescription() == null || article.getDescription().length() == 0) {
-      article.setDescription("No description");
+      article.setDescription("No description.");
+      needFix = true;
+    }
+
+    // Fix more restrictions :(
+    if (article.getPublishedAt() == null || article.getPublishedAt().toString().length() == 0) {
+      article.setPublishedAt("No datetime.");
+      needFix = true;
+    }
+
+    // Fix more restrictions :(
+    if (article.getUrlToImage() == null || article.getUrlToImage().toString().length() == 0) {
+      article.setUrlToImage("No image.");
+      needFix = true;
+    }
+
+    // Fix more restrictions :(
+    if (article.getUrl() == null || article.getUrl().toString().length() == 0) {
+      article.setUrl("No url.");
+      needFix = true;
+    }
+
+    // Fix more restrictions :(
+    if (article.getTitle() == null || article.getTitle().toString().length() == 0) {
+      article.setTitle("No title.");
       needFix = true;
     }
 
@@ -124,13 +153,32 @@ public class ContractsImplNewsApi implements Contracts {
         // MULTI_LINE_STYLE));
         news.add(toNews(article));
       }
-      return news;
+      return news.stream()
+          // Remote the duplicates (by id)
+          .filter(distintById(News::getId))
+          // Sort the stream by publishedAt
+          .sorted((k1,k2)->k2.getPublishedAt().compareTo(k1.getPublishedAt()))
+          // Return the stream to list
+          .collect(Collectors.toList());
 
     } catch (IOException ex) {
       log.error("Error", ex);
       return null;
     }
   }
+
+  /**
+   * Filter the stream.
+   *
+   * @param idExtractor
+   * @param <T> news to filter
+   * @return true if the news already exists.
+   */
+  private static <T>Predicate<T> distintById(Function<? super T, ?> idExtractor){
+    Map<Object, Boolean> seen = new ConcurrentHashMap<>();
+    return t -> seen.putIfAbsent(idExtractor.apply(t), Boolean.TRUE) == null;
+  }
+
 
   /**
    * Save one News into the System.
