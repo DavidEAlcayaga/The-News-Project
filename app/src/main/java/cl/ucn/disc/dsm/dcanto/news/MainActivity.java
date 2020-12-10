@@ -19,8 +19,23 @@
 
 package cl.ucn.disc.dsm.dcanto.news;
 
+import android.os.AsyncTask;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import cl.ucn.disc.dsm.dcanto.news.model.News;
+import cl.ucn.disc.dsm.dcanto.news.model.NewsItem;
+import cl.ucn.disc.dsm.dcanto.news.services.Contracts;
+import cl.ucn.disc.dsm.dcanto.news.services.ContractsImplNewsApi;
+import com.mikepenz.fastadapter.FastAdapter;
+import com.mikepenz.fastadapter.adapters.ModelAdapter;
+import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Main Class.
@@ -31,6 +46,16 @@ import android.os.Bundle;
 public class MainActivity extends AppCompatActivity {
 
   /**
+   * The Logger.
+   */
+  private static final Logger log = LoggerFactory.getLogger(MainActivity.class);
+
+  /**
+   * The List View
+   */
+  protected ListView listView;
+
+  /**
    * OnCreate.
    *
    * @param savedInstanceState used to reload the app.
@@ -38,6 +63,41 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    log.debug("onCreate ..");
     setContentView(R.layout.activity_main);
+
+    // The FastAdapter
+    ModelAdapter<News, NewsItem> newsAdapter = new ModelAdapter<>(NewsItem::new);
+    FastAdapter<NewsItem> fastAdapter = FastAdapter.with(newsAdapter);
+    fastAdapter.withSelectable(false);
+
+    // The Recycler view
+    RecyclerView recyclerView = findViewById(R.id.am_rv_news);
+    recyclerView.setAdapter(fastAdapter);
+    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
+    // Get the news in the background thread
+    AsyncTask.execute(() -> {
+
+      // Using the contracts to get the news..
+      Contracts contracts = new ContractsImplNewsApi("cb92acd6ea2d4b1e968da42e6b262c6a");
+
+      // Get the news from NewsAPI (Internet!)
+      List<News> listNews = contracts.retrieveNews(30);
+
+      // Build the simple adapter to show the list of news (String!)
+      ArrayAdapter<String> adapter = new ArrayAdapter(
+          this,
+          android.R.layout.simple_list_item_1,
+          listNews
+      );
+
+      // Set the adapter!
+      runOnUiThread(()->{
+        newsAdapter.add(listNews);
+      });
+
+    });
   }
 }
