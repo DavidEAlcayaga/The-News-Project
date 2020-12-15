@@ -8,14 +8,14 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package cl.ucn.disc.dsm.dcanto.news.model;
+package cl.ucn.disc.dsm.dcanto.news.adapters;
 
 import android.view.View;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import cl.ucn.disc.dsm.dcanto.news.R;
-import cl.ucn.disc.dsm.dcanto.news.model.NewsItem.ViewHolder;
+import cl.ucn.disc.dsm.dcanto.news.model.News;
 import com.mikepenz.fastadapter.items.ModelAbstractItem;
 import org.threeten.bp.format.DateTimeFormatter;
 import java.util.List;
