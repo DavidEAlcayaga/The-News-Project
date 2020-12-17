@@ -22,8 +22,7 @@
       app:contentInsetStartWithNavigation="0dp"
       app:navigationIcon="@drawable/ic_launcher_foreground"
       app:subtitle="@string/subtitle"
-      app:title="@string/title"
-      style="@style/Theme.News.Toolbar"/>
+      app:title="@string/title"/>
 
   </com.google.android.material.appbar.AppBarLayout>
 
