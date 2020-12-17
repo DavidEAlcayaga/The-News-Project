@@ -10,10 +10,10 @@
   -->
 
 <resources>
-  <color name="blue_300">#7986cb</color>
-  <color name="blue_500">#3F51B5</color>
-  <color name="blue_700">#303f9f</color>
-  <color name="blue_900">#1a237e</color>
+  <color name="indigo_300">#7986cb</color>
+  <color name="indigo_500">#3F51B5</color>
+  <color name="indigo_700">#303f9f</color>
+  <color name="indigo_900">#1a237e</color>
 
   <color name="purple_600">#90309F</color>
   <color name="purple_800">#6f258e</color>
@@ -30,6 +30,44 @@
   <color name="grey_800">#37474f</color>
   <color name="grey_900">#263238</color>
 
-  <color name="black_0">#000000</color>
-  <color name="white_1000">#FFFFFF</color>
+  <color name="blue_900">#0d47a1</color>
+  <color name="blue_900_light">#5472d3</color>
+  <color name="blue_900_dark">#002171</color>
+  <color name="blue_800">#1565c0</color>
+  <color name="blue_700">#1976d2</color>
+  <color name="blue_600">#1e88e5</color>
+  <color name="blue_500">#2196f3</color>
+  <color name="blue_400">#42a5f5</color>
+
+  <color name="pink_900">#880e4f</color>
+  <color name="pink_800">#ad1457</color>
+  <color name="pink_700">#c2185b</color>
+  <color name="pink_600">#d81b60</color>
+  <color name="pink_600_light">#ff5c8d</color>
+  <color name="pink_600_dark">#a00037</color>
+  <color name="pink_500">#e91e63</color>
+  <color name="pink_400">#ec407a</color>
+
+  <color name="teal_900">#004d40</color>
+  <color name="teal_800">#00695c</color>
+  <color name="teal_700">#00796b</color>
+  <color name="teal_700_light">#48a999</color>
+  <color name="teal_700_dark">#004c40</color>
+  <color name="teal_600">#00897b</color>
+  <color name="teal_500">#009688</color>
+  <color name="teal_400">#26a69a</color>
+
+  <color name="blue_gray_900">#263238</color>
+  <color name="blue_gray_800">#37474f</color>
+  <color name="blue_gray_700">#455a64</color>
+  <color name="blue_gray_600">#546e7a</color>
+  <color name="blue_gray_500">#607d8b</color>
+  <color name="blue_gray_400">#78909c</color>
+  <color name="blue_gray_300">#90a4ae</color>
+  <color name="blue_gray_200">#b0bec5</color>
+  <color name="blue_gray_100">#cfd8dc</color>
+  <color name="blue_gray_50">#eceff1</color>
+
+  <color name="black">#000000</color>
+  <color name="white">#FFFFFF</color>
 </resources>
