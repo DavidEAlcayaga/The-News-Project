@@ -55,6 +55,9 @@ composer.lock
 # Mongo Explorer plugin:
 .idea/**/mongoSettings.xml
 
+#ICE
+.idea/projectIceFramework.xml
+
 ## File-based project format:
 *.iws
 
