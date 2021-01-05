@@ -13,6 +13,11 @@ class News extends Model
      *
      * @var bool
      */
+
+    protected $fillable = [
+        'title', 'author', 'url', 'url_image', 'description', 'content','published_at',
+    ];
+
     public $incrementing = false;
 
     /**
@@ -20,7 +25,13 @@ class News extends Model
      *
      * @var string
      */
-    protected $connection = 'sqlite';
+   protected $connection = 'sqlite';
 
     use HasFactory;
+
+
+  protected $guarded = ["id"];
+
+
+  //  public $timestamps = false;
 }
