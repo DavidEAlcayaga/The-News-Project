@@ -18,5 +18,8 @@ Route::get('/', function () {
     return view('registernews');
 });
 
+// Route to the news form
 Route::view('registernews', 'registernews');
+
+// Route the news controller to store the posted news
 Route::post('registernews', [NewsController::class, 'store']);
