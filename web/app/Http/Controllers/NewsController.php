@@ -42,6 +42,7 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
+        // The validation of the required fields of the form
         $this->validate($request, [
             'title' => 'required',
             'author' => 'required',
@@ -51,14 +52,31 @@ class NewsController extends Controller
             'date' => 'required'
         ]);
 
+        // Creates a News object
         $news = new News();
+
+        // Get's the title of the news from the form
         $news->title = $request->input('title');
+
+        // Get's the author of the news from the form
         $news->author = $request->input('author');
+
+        // Get's the URL of the news from the form
         $news->url = $request->input('url');
+
+        // Get's the URL image of the news from the form
         $news->url_image = $request->input('url_image');
+
+        // Get's the description of the news from the form
         $news->description = $request->input('description');
+
+        // Get's the content of the news from the form
         $news->content = $request->input('content');
+
+        // Get's the publish date of the news from the form
         $news->published_at = $request->input('date');
+
+        // Save the news into the Db
         $news->save();
         $news = News::all();
 
