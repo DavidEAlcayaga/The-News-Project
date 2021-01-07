@@ -67,6 +67,7 @@
             <div class="form-group">
                 <label for="title" class="col-sm-2 col-form-label">Title</label>
                 <div>
+                    <!-- News title input box (required) -->
                     <input type="text" class="form-control" name="title" placeholder="Enter title"
                            value="{{old('title')}}">
                 </div>
@@ -76,6 +77,7 @@
             <div class="form-group">
                 <label for="author" class="col-sm-2 col-form-label">Author</label>
                 <div>
+                    <!-- News author input box (required) -->
                     <input type="text" class="form-control" name="author" placeholder="Enter Author"
                            value="{{old('author')}}">
                 </div>
@@ -84,6 +86,7 @@
             <div class="form-group">
                 <label for="url" class="col-sm-2 col-form-label">URL</label>
                 <div>
+                    <!-- News URL input box (required) -->
                     <input type="text" class="form-control" name="url" placeholder="Enter the url of the news"
                            value="{{old('url')}}">
                 </div>
@@ -93,6 +96,7 @@
                 <label for="url_image" class="col-sm-2 col-form-label">Url_Image</label>
 
                 <div>
+                    <!-- News image URL input box (optional) -->
                     <input type="text" class="form-control" name="url_image"
                            placeholder="Enter the url of the image for the news" value="{{old('url_image')}}">
                 </div>
@@ -101,6 +105,7 @@
             <div class="form-group">
                 <label for="description" class="col-sm-2 col-form-label">Description</label>
                 <div>
+                    <!-- News description input box (required) -->
                     <input type="text" class="form-control" name="description"
                            placeholder="Enter the description of the news" value="{{old('description')}}">
 
@@ -113,6 +118,7 @@
                     <textarea class="form-control" name="content" rows="5" cols="50"
                               value="{{old('description')}}"></textarea>
                 </div>
+                <!-- News content input box (required) -->
                 <small id="inputContent" class="form-text text-muted">Enter content for the news.</small>
 
 
