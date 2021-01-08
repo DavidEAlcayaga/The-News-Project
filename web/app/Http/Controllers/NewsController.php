@@ -46,6 +46,7 @@ class NewsController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'author' => 'required',
+            'source' => 'required',
             'url' => 'required',
             'description' => 'required',
             'content' => 'required',
@@ -60,6 +61,9 @@ class NewsController extends Controller
 
         // Get's the author of the news from the form
         $news->author = $request->input('author');
+
+        // Get's the source of the news from the form
+        $news->source = $request->input('source');
 
         // Get's the URL of the news from the form
         $news->url = $request->input('url');
@@ -89,7 +93,7 @@ class NewsController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
         //
     }
