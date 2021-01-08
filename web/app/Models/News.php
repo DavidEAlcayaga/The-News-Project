@@ -15,7 +15,7 @@ class News extends Model
      */
 
     protected $fillable = [
-        'title', 'author', 'url', 'url_image', 'description', 'content','published_at',
+        'title', 'author', 'source', 'url', 'url_image', 'description', 'content','published_at',
     ];
 
     public $incrementing = false;
