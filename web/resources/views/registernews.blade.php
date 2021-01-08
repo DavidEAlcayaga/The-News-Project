@@ -84,6 +84,15 @@
             </div>
 
             <div class="form-group">
+                <label for="source" class="col-sm-2 col-form-label">Source</label>
+                <div>
+                    <!-- News author input box (required) -->
+                    <input type="text" class="form-control" name="source" placeholder="Enter Source"
+                           value="{{old('source')}}">
+                </div>
+            </div>
+
+            <div class="form-group">
                 <label for="url" class="col-sm-2 col-form-label">URL</label>
                 <div>
                     <!-- News URL input box (required) -->
