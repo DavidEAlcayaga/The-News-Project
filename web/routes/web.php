@@ -32,3 +32,6 @@ Route::get('edit/{id}', [NewsController::class, 'edit']);
 
 // Route to update the news
 Route::post('edit', [NewsController::class, 'update']);
+
+// Route to delete the news
+Route::get('delete/{id}', [NewsController::class, 'destroy']);
