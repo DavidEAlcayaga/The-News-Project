@@ -123,6 +123,18 @@ class NewsController extends Controller
     public function update(Request $request)
     {
         //
+        $data = News::find($request->id);
+        $data -> title = $request -> input('title');
+        $data -> author = $request -> input('author');
+        $data -> source = $request -> input('source');
+        $data -> url = $request -> input('url');
+        $data -> url_image = $request -> input('url_image');
+        $data -> description = $request -> input('description');
+        $data -> content = $request -> input('content');
+        $data -> published_at = $request -> input('published_at');
+
+        $data -> save();
+        return redirect('listadonoticias');
     }
 
     /**
