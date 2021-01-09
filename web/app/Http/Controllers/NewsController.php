@@ -42,6 +42,7 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
+
         // The validation of the required fields of the form
         $this->validate($request, [
             'title' => 'required',
@@ -90,12 +91,13 @@ class NewsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show()
     {
-        //
+
+        $data = News::all();
+        return view('listadonoticias', ['newsList'=>$data]);
     }
 
     /**
@@ -116,7 +118,7 @@ class NewsController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
     }
