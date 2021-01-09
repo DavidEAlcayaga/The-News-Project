@@ -21,5 +21,14 @@ Route::get('/', function () {
 // Route to the news form
 Route::view('registernews', 'registernews');
 
-// Route the news controller to store the posted news
+// Route of the news controller to store the posted news
 Route::post('registernews', [NewsController::class, 'store']);
+
+// Route of the news controller to show the stored news
+Route::get('listadonoticias', [NewsController::class, 'show']);
+
+// Route to edit the news
+Route::get('edit/{id}', [NewsController::class, 'edit']);
+
+// Route to update the news
+Route::post('edit', [NewsController::class, 'update']);
