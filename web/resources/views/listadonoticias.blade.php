@@ -1,24 +1,9 @@
-@section('content')
+@extends('layouts.app')
 
+@section('content')
+@auth
     <!doctype html>
 <html>
-<!-- Image and text navbar-->
-<nav class="navbar navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-            <img
-                src="https://www.ucn.cl/wp-content/uploads/2018/05/Escudo-UCN-Full-Color.png"
-                height="70"
-                alt=""
-                loading="lazy"
-            />
-            Universidad Cátolica del Norte
-        </a>
-    </div>
-</nav>
-
-<br/>
-
 <head>
     <div class="container">
         <!-- Content here -->
@@ -33,26 +18,29 @@
 <body>
 <div class="container">
 
-    <div class="col-sm-8">
+    <div class="col-sm-16">
 
         <h1>List News</h1>
 
-        <table border = "1">
+        <table class="table table-striped">
+            <thead>
             <tr>
-                <td>Id</td>
-                <td>Title</td>
-                <td>Author</td>
-                <td>Source</td>
-                <td>URL</td>
-                <td>Image URL</td>
-                <td>Description</td>
-                <td>Content</td>
-                <td>Published At</td>
-                <td>Operation</td>
+                <th scope="col">Id</th>
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">Source</th>
+                <th scope="col">URL</th>
+                <th scope="col">Image URL</th>
+                <th scope="col">Description</th>
+                <th scope="col">Content</th>
+                <th scope="col">Published At</th>
+                <th scope="col">Operation</th>
             </tr>
+            </thead>
+            <tbody>
             @foreach($newsList as $news)
                 <tr>
-                    <td>{{$news['id']}}</td>
+                    <th scope="row">{{$news['id']}}</th>
                     <td>{{$news['title']}}</td>
                     <td>{{$news['author']}}</td>
                     <td>{{$news['source']}}</td>
@@ -62,45 +50,20 @@
                     <td>{{$news['content']}}</td>
                     <td>{{$news['published_at']}}</td>
                     <td>
-                        <a href={{"edit/".$news['id']}}>Edit</a>
-                        <a href={{"delete/".$news['id']}}>Delete</a>
+                        <a href="{{"edit/".$news['id']}}" class="btn btn-primary btn-sm active" role="button"
+                           aria-pressed="true">Edit</a>
+                        <a href="{{"delete/".$news['id']}}" class="btn btn-secondary btn-sm active" role="button"
+                           aria-pressed="true">Delete</a>
+
                     </td>
                 </tr>
             @endforeach
+            </tbody>
         </table>
     </div>
 </div>
 </body>
 </div>
-
-<br/>
-<br/>
-<br/>
-
-<!-- footer -->
-<footer class="bg-light text-center text-lg-start">
-    <!-- Grid container -->
-    <div class="container p-4">
-        <!--Grid row-->
-
-        <div>
-            <h5 class="text-uppercase">The News Project</h5>
-
-            <p>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste atque ea quis
-                molestias. Fugiat pariatur maxime quis culpa corporis vitae repudiandae
-                aliquam voluptatem veniam, est atque cumque eum delectus sint!
-            </p>
-
-            <!--Grid row-->
-        </div>
-        <!-- Grid container -->
-
-        <!-- Copyright -->
-        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
-            © 2020 Copyright:
-            <a class="text-dark" href="https://mdbootstrap.com/">Desarrollo de soluciones móviles</a>
-        </div>
-        <!-- Copyright -->
-</footer>
 </html>
+@endauth
+@endsection
