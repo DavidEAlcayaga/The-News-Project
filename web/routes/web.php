@@ -19,19 +19,35 @@ Route::get('/', function () {
 });
 
 // Route to the news form
-Route::view('registernews', 'registernews');
+Route::view('registernews', 'registernews') ->middleware('auth');
 
 // Route of the news controller to store the posted news
-Route::post('registernews', [NewsController::class, 'store']);
+Route::post('registernews', [NewsController::class, 'store'])->middleware('auth');
 
 // Route of the news controller to show the stored news
-Route::get('listadonoticias', [NewsController::class, 'show']);
+Route::get('listadonoticias', [NewsController::class, 'show'])->middleware('auth');
 
 // Route to edit the news
-Route::get('edit/{id}', [NewsController::class, 'edit']);
+Route::get('edit/{id}', [NewsController::class, 'edit'])->middleware('auth');
 
 // Route to update the news
-Route::post('edit', [NewsController::class, 'update']);
+Route::post('edit', [NewsController::class, 'update'])->middleware('auth');
 
 // Route to delete the news
-Route::get('delete/{id}', [NewsController::class, 'destroy']);
+Route::get('delete/{id}', [NewsController::class, 'destroy'])->middleware('auth');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
