@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
 use App\Models\News;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
+//TODO agregar php docs
 class NewsFactory extends Factory
 {
     /**
@@ -23,9 +24,9 @@ class NewsFactory extends Factory
     public function definition()
     {
         return [
-            'id' => $this->faker->name,
+            'id' => (string)$this->faker->isbn13,
             'title' => $this->faker->catchPhrase,
-            'author' => $this->faker->name($gender = null|'male'|'female'),
+            'author' => $this->faker->name($gender = 'male'|'female'),
             'source' => $this->faker->company,
             'url' => $this->faker->url,
             'url_image' => $this->faker->imageUrl($width = 640, $height = 480),
