@@ -85,3 +85,6 @@ fabric.properties
 # modules.xml
 # .idea/misc.xml
 # *.ipr
+
+#Test Cache
+.phpunit.result.cache
