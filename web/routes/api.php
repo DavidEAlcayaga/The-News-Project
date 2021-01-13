@@ -13,10 +13,5 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-// News routes
-Route::resource('news', \App\Http\Controllers\NewsController::class);
+//TODO agregar php docs
+Route::get('news/{news}', 'NewsController@show')->name('api.v1.news.show');
