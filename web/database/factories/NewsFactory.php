@@ -23,8 +23,9 @@ class NewsFactory extends Factory
      */
     public function definition()
     {
+        static $order = 1;
         return [
-            'id' => (string)$this->faker->isbn13,
+            'id' => $order++,
             'title' => $this->faker->catchPhrase,
             'author' => $this->faker->name($gender = 'male'|'female'),
             'source' => $this->faker->company,
