@@ -15,3 +15,4 @@ use Illuminate\Support\Facades\Route;
 */
 //TODO agregar php docs
 Route::get('news/{news}', 'NewsController@show')->name('api.v1.news.show');
+Route::get('news', 'NewsController@index')->name('api.v1.news.index');
