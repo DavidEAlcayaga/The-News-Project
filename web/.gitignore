@@ -94,3 +94,14 @@ fabric.properties
 _ide_helper.php
 _ide_helper_models.php
 
+# Laravel plugin
+.idea/laravel-plugin.xml
+
+# PHP config
+.idea/php.xml
+
+# PHP test framework config
+.idea/php-test-framework.xml
+
+# PHP Storm meta
+.phpstorm.meta.php
