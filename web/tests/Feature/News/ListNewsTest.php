@@ -23,7 +23,7 @@ class ListNewsTest extends TestCase
         $response->assertJson([
             'data' => [
                 'type' => 'news',
-                'id' => (string) $news->id,
+                'id' => $news->id,
                 'attributes' => [
                     'id' => (string)$news->id,
                     'title' => $news->title,
@@ -47,16 +47,17 @@ class ListNewsTest extends TestCase
     {
 
         $news = News::factory()->times(3)->create();
+        $news->sortByDesc('published_at');
 
         $response = $this->getJson(route('api.v1.news.index'));
 
-        $response->assertJson([
+        $response->assertJsonFragment([
             'data' => [
                 [
                     'type' => 'news',
-                    'id' => $news[0]->id,
+                    'id' => (int)$news[0]->id,
                     'attributes' => [
-                        'id' => (string)$news[0]->id,
+                        'id' => (int)$news[0]->id,
                         'title' => $news[0]->title,
                         'author' => $news[0]->author,
                         'source' => $news[0]->source,
@@ -72,9 +73,9 @@ class ListNewsTest extends TestCase
                 ],
                 [
                     'type' => 'news',
-                    'id' => $news[1]->id,
+                    'id' => (int)$news[1]->id,
                     'attributes' => [
-                        'id' => (string)$news[1]->id,
+                        'id' => (int)$news[1]->id,
                         'title' => $news[1]->title,
                         'author' => $news[1]->author,
                         'source' => $news[1]->source,
@@ -90,9 +91,9 @@ class ListNewsTest extends TestCase
                 ],
                 [
                     'type' => 'news',
-                    'id' => $news[2]->id,
+                    'id' => (int)$news[2]->id,
                     'attributes' => [
-                        'id' => (string)$news[2]->id,
+                        'id' => (int)$news[2]->id,
                         'title' => $news[2]->title,
                         'author' => $news[2]->author,
                         'source' => $news[2]->source,
@@ -106,9 +107,6 @@ class ListNewsTest extends TestCase
                         'self' => route('api.v1.news.show', $news[2])
                     ]
                 ],
-            ],
-            'links' => [
-                'self' => route('api.v1.news.index')
             ]
         ]);
     }
