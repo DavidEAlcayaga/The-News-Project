@@ -33,7 +33,7 @@ class NewsFactory extends Factory
             'url_image' => $this->faker->imageUrl($width = 640, $height = 480),
             'description' => $this->faker->text($maxNbChars = 100),
             'content' => $this->faker->jobTitle,
-            'published_at' => $this->faker->time( 'H:i:s', '15:00:00' ),
+            'published_at' => ($this->faker->dateTime($max = 'now', $timezone = null)->getTimestamp()),
         ];
     }
 }
