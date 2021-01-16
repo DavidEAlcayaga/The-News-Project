@@ -45,6 +45,11 @@
                     @endforeach
                     </tbody>
                 </table>
+                <div class="text-xs-center">
+                    <ul class="pagination justify-content-center">
+                        {{$newsList->onEachSide(5)->links()}}
+                    </ul>
+                </div>
             </div>
         </div>
         </div>
