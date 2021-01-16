@@ -17,10 +17,7 @@ class NewsCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'data' => $this->collection,
-            'links' => [
-                'self' => route('api.v1.news.index')
-            ]
+            'data' => $this->collection
         ];
     }
 }
