@@ -25,6 +25,7 @@ workspace.xml
 Thumbs.db
 composer.phar
 composer.lock
+.phpstorm.meta.php
 
 # Rocketeer PHP task runner and deployment package. https://github.com/rocketeers/rocketeer
 .rocketeer/
@@ -88,3 +89,8 @@ fabric.properties
 
 #Test Cache
 .phpunit.result.cache
+
+#laravel ide helper
+_ide_helper.php
+_ide_helper_models.php
+
