@@ -109,7 +109,7 @@ public class News {
     this.urlImage = urlImage;
 
     //Description validation
-    Validation.minSize(description,2,"description");
+    Validation.notNull(description, "description");
     this.description = description;
 
     //Content validation
