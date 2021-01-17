@@ -15,13 +15,7 @@ class NewsController extends Controller
 {
     public function index()
     {
-        $news = News::applySorts(request('sort'))
-            ->paginate(
-                $perPage = request('page.size'),
-                $columns = ['*'],
-                $pageName = 'page[number]',
-                $page = request('page.number')
-            )->appends(request()->except('page.number'));
+        $news = News::applySorts()->jsonPaginate();
 
         return NewsCollection::make($news);
     }
