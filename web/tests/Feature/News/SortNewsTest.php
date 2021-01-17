@@ -39,4 +39,13 @@ class SortNewsTest extends TestCase
             '2018-12-02T20:01:00.283041Z',
         ]);
     }
+
+    /** @test */
+    public function it_cannot_sort_news_by_unknown_fields(){
+        News::factory()->times(3)->create();
+
+        $url = route('api.v1.news.index').'?sort=unknown';
+
+        $this->getJson($url)->assertStatus(400);
+    }
 }
