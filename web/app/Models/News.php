@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 class News extends Model
 {
 
+    public $allowedSorts = ['published_at', 'title'];
     /**
      * Indicates if the model's ID is auto-incrementing.
      *
@@ -42,24 +43,5 @@ class News extends Model
         'id' => 'integer',
         'published_at' => 'string',
     ];
-
-    /**
-     * @param Builder $query
-     * @param $sort
-     * @mixin Eloquent
-     */
-    public function scopeApplySorts(Builder $query, $sort){
-
-        $sortFields = Str::of($sort)->explode(',');
-
-        foreach($sortFields as $sortField){
-            $direction = 'asc';
-            if(Str::of($sortField)->startsWith('-')){
-                $direction = 'desc';
-                $sortField = Str::of($sortField)->substr(1);
-            }
-            $query->orderBy($sortField, $direction);
-        }
-    }
 
 }
