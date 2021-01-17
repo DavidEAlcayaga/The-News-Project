@@ -11,7 +11,6 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th scope="col">Id</th>
                         <th scope="col">Título</th>
                         <th scope="col">Autor</th>
                         <th scope="col">Fuente</th>
@@ -26,7 +25,6 @@
                     <tbody>
                     @foreach($newsList as $news)
                         <tr>
-                            <th scope="row">{{$news['id']}}</th>
                             <td>{{$news['title']}}</td>
                             <td>{{$news['author']}}</td>
                             <td>{{$news['source']}}</td>
@@ -38,15 +36,20 @@
                             <td>
                                 <a href="{{"edit/".$news['id']}}" class="btn btn-primary btn-sm active" role="button"
                                    aria-pressed="true">Editar</a>
-                                <a href="{{"delete/".$news['id']}}" class="btn btn-secondary btn-sm active"
+                                <a href="{{"delete/".$news['id']}}" class="btn btn-danger btn-sm active"
+                                   onclick="return confirm('¿Está seguro de eliminar esta noticia?')"
                                    role="button"
                                    aria-pressed="true">Eliminar</a>
-
                             </td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
+                <div class="text-xs-center">
+                    <ul class="pagination justify-content-center">
+                        {{$newsList->onEachSide(5)->links()}}
+                    </ul>
+                </div>
             </div>
         </div>
         </div>
