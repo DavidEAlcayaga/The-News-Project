@@ -47,7 +47,6 @@ class ListNewsTest extends TestCase
     {
 
         $news = News::factory()->times(3)->create();
-        $news->sortByDesc('published_at');
 
         $response = $this->getJson(route('api.v1.news.index'));
 
