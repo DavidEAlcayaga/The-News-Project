@@ -22,6 +22,8 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import cl.ucn.disc.dsm.dcanto.news.R;
 import cl.ucn.disc.dsm.dcanto.news.model.News;
 import cl.ucn.disc.dsm.dcanto.news.adapters.NewsItem;
@@ -100,6 +102,33 @@ public class MainActivity extends AppCompatActivity {
         
       });
 
+      // Pull to refresh
+      SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.am_swl_refresh);
+      swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+
+          // Clear screen
+          newsAdapter.clear();
+
+          AsyncTask.execute(() -> {
+            // Using the contracts to get the news..
+            Contracts contracts = new ContractsImplNewsApi("cb92acd6ea2d4b1e968da42e6b262c6a");
+
+            // Get the news from NewsAPI (Internet!)
+            List<News> listNews = contracts.retrieveNews(30);
+
+            // Update the listView
+            runOnUiThread(()->{
+
+              newsAdapter.add(listNews);
+            });
+          });
+
+          fastAdapter.notifyAdapterDataSetChanged();
+          swipeRefreshLayout.setRefreshing(false);
+        }
+      });
     });
   }
 
