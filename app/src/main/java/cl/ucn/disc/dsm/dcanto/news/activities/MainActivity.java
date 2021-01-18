@@ -10,6 +10,8 @@
 
 package cl.ucn.disc.dsm.dcanto.news.activities;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +20,8 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -79,27 +83,34 @@ public class MainActivity extends AppCompatActivity {
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
     recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
-    // Get the news in the background thread
-    AsyncTask.execute(() -> {
+    ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
+    NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
-      // Using the contracts to get the news..
-      Contracts contracts = new ContractsImplNewsApi("cb92acd6ea2d4b1e968da42e6b262c6a");
+    if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
 
-      // Get the news from NewsAPI (Internet!)
-      List<News> listNews = contracts.retrieveNews(30);
+      // Get the news in the background thread
+      AsyncTask.execute(() -> {
 
-      // Build the simple adapter to show the list of news (String!)
-      ArrayAdapter<String> adapter = new ArrayAdapter(
-          this,
-          android.R.layout.simple_list_item_1,
-          listNews
-      );
+        // Using the contracts to get the news..
+        Contracts contracts = new ContractsImplNewsApi("cb92acd6ea2d4b1e968da42e6b262c6a");
 
-      // Set the adapter!
-      runOnUiThread(()->{
+        // Get the news from NewsAPI (Internet!)
+        List<News> listNews = contracts.retrieveNews(30);
 
-        newsAdapter.add(listNews);
-        
+        // Build the simple adapter to show the list of news (String!)
+        ArrayAdapter<String> adapter = new ArrayAdapter(
+                this,
+                android.R.layout.simple_list_item_1,
+                listNews
+        );
+
+        // Set the adapter!
+        runOnUiThread(()->{
+
+          newsAdapter.add(listNews);
+
+        });
+
       });
 
       // Pull to refresh
@@ -129,7 +140,12 @@ public class MainActivity extends AppCompatActivity {
           swipeRefreshLayout.setRefreshing(false);
         }
       });
-    });
+
+      Toast.makeText(getApplicationContext(), "CONECTADO", Toast.LENGTH_LONG).show();
+    }else{
+
+      Toast.makeText(getApplicationContext(), "SIN CONEXION", Toast.LENGTH_LONG).show();
+    }
   }
 
   /**
