@@ -10,6 +10,10 @@
 
 package cl.ucn.disc.dsm.dcanto.news.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import cl.ucn.disc.dsm.dcanto.news.utils.Validation;
 import net.openhft.hashing.LongHashFunction;
 import org.slf4j.Logger;
@@ -21,6 +25,7 @@ import org.threeten.bp.ZonedDateTime;
  *
  * @author David Canto-Alcayaga.
  */
+@Entity(tableName = "localDB")
 public class News {
   /**
    * The Logger.
@@ -30,48 +35,57 @@ public class News {
   /**
    * Unique ID.
    */
-  private final Long id;
+  @PrimaryKey (autoGenerate = false)
+  public Long id;
 
   /**
    * The Title.
    * Restrictions: not null, size > 2.
    */
+  @ColumnInfo (name = "title")
   private final String title;
 
   /**
    * The Source.
    */
+  @ColumnInfo (name = "source")
   private final String source;
 
   /**
    * The Author.
    */
+  @ColumnInfo (name = "author")
   private final String author;
 
   /**
    * The URL.
    */
+  @ColumnInfo (name = "url")
   private final String url;
 
   /**
    * The URL of image.
    */
+  @ColumnInfo (name = "urlImage")
   private final String urlImage;
 
   /**
    * The Description.
    */
+  @ColumnInfo (name = "description")
   private final String description;
 
   /**
    * The Content.
    */
+  @ColumnInfo(name = "content")
   private final String content;
 
   /**
    * The Date of publish.
    */
-  private final org.threeten.bp.ZonedDateTime publishedAt;
+  @ColumnInfo (name = "publishedAt")
+  public ZonedDateTime publishedAt;
 
   /**
    * The Constructor.
@@ -85,7 +99,7 @@ public class News {
    * @param publishedAt
    */
   public News(String title, String source, String author, String url,
-      String urlImage, String description, String content, org.threeten.bp.ZonedDateTime
+      String urlImage, String description, String content, ZonedDateTime
       publishedAt) {
 
     // Title validation
@@ -126,21 +140,6 @@ public class News {
     strBuild.append(this.source);
     strBuild.append(this.author);
     this.id = LongHashFunction.xx().hashChars(strBuild);
-  }
-
-  /**
-   * The null Constructor.
-   */
-  public News(){
-    this.id = null;
-    this.title = null;
-    this.source = null;
-    this.author = null;
-    this.url = null;
-    this.urlImage = null;
-    this.description = null;
-    this.content = null;
-    this.publishedAt = null;
   }
 
   /**
