@@ -182,6 +182,19 @@ public class MainActivity extends AppCompatActivity {
       thread.start();
 
       Toast.makeText(getApplicationContext(), "SIN CONEXION", Toast.LENGTH_LONG).show();
+
+      // Pull to refresh
+      SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.am_swl_refresh);
+      swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+
+          // Displays "Sin Conexion" message
+          Toast.makeText(getApplicationContext(), "SIN CONEXION", Toast.LENGTH_LONG).show();
+
+          swipeRefreshLayout.setRefreshing(false);
+        }
+      });
     }
   }
 
