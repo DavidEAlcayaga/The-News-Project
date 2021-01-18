@@ -26,11 +26,13 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import cl.ucn.disc.dsm.dcanto.news.R;
 import cl.ucn.disc.dsm.dcanto.news.model.News;
 import cl.ucn.disc.dsm.dcanto.news.adapters.NewsItem;
+import cl.ucn.disc.dsm.dcanto.news.services.AppDatabase;
 import cl.ucn.disc.dsm.dcanto.news.services.Contracts;
 import cl.ucn.disc.dsm.dcanto.news.services.ContractsImplNewsApi;
 import com.mikepenz.fastadapter.FastAdapter;
@@ -83,10 +85,19 @@ public class MainActivity extends AppCompatActivity {
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
     recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
+    // Local DB instance
+    AppDatabase dataBase = Room.databaseBuilder(getApplicationContext(),
+            AppDatabase.class, "localDB").build();
+
+    // Checks conectivity
     ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
     NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
     if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+
+      // Thread for clear the Db
+      Thread thread = new Thread(() -> AppDatabase.getInstance(getApplicationContext()).newsDao().wipeData());
+      thread.start();
 
       // Get the news in the background thread
       AsyncTask.execute(() -> {
@@ -104,6 +115,15 @@ public class MainActivity extends AppCompatActivity {
                 listNews
         );
 
+        // Store data in local DB
+        for (int i = 0; i < listNews.size()-1; i++) {
+
+          if (listNews.get(i) != null) {
+
+            dataBase.newsDao().insertNews(listNews.get(i));
+          }
+        }
+
         // Set the adapter!
         runOnUiThread(()->{
 
@@ -119,6 +139,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onRefresh() {
 
+          // Clears the Db
+          Thread thread = new Thread(() -> AppDatabase.getInstance(getApplicationContext()).newsDao().wipeData());
+          thread.start();
+
           // Clear screen
           newsAdapter.clear();
 
@@ -128,6 +152,15 @@ public class MainActivity extends AppCompatActivity {
 
             // Get the news from NewsAPI (Internet!)
             List<News> listNews = contracts.retrieveNews(30);
+
+            // Replace the data
+            for (int i = 0; i < listNews.size()-1; i++) {
+
+              if (listNews.get(i) != null) {
+
+                dataBase.newsDao().insertNews(listNews.get(i));
+              }
+            }
 
             // Update the listView
             runOnUiThread(()->{
@@ -143,6 +176,10 @@ public class MainActivity extends AppCompatActivity {
 
       Toast.makeText(getApplicationContext(), "CONECTADO", Toast.LENGTH_LONG).show();
     }else{
+
+      // Get's the data from Db when the app is without internet
+      Thread thread = new Thread(() -> newsAdapter.add(dataBase.newsDao().getAll()));
+      thread.start();
 
       Toast.makeText(getApplicationContext(), "SIN CONEXION", Toast.LENGTH_LONG).show();
     }
