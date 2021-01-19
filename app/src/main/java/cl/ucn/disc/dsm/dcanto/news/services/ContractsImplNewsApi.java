@@ -10,6 +10,9 @@
 
 package cl.ucn.disc.dsm.dcanto.news.services;
 
+import cl.ucn.disc.dsm.dcanto.news.model.newsjson.JsonNewsAttributes;
+import cl.ucn.disc.dsm.dcanto.news.model.newsjson.JsonNewsData;
+import cl.ucn.disc.dsm.dcanto.news.model.newsjson.JsonNewsItem;
 import com.kwabenaberko.newsapilib.models.Article;
 
 import java.util.Map;
@@ -132,6 +135,78 @@ public class ContractsImplNewsApi implements Contracts {
   }
 
   /**
+   * The Assembler/Transformer pattern!
+   *
+   * @param jsonNewsAttributes used to source
+   * @return the News
+   */
+  private static News laravelNewstoNews(final JsonNewsAttributes jsonNewsAttributes) {
+    Validation.notNull(jsonNewsAttributes, "Laravel News null !?!");
+    // Warning message?
+    boolean needFix = false;
+    // Fix the author null :(
+    if(jsonNewsAttributes.getAuthor() == null || jsonNewsAttributes.getAuthor().length() == 0) {
+      jsonNewsAttributes.setAuthor("No author.");
+      needFix = true;
+    }
+
+    // Fix more restrictions :(
+    if (jsonNewsAttributes.getDescription() == null || jsonNewsAttributes.getDescription().length() == 0) {
+      jsonNewsAttributes.setDescription("No description.");
+      needFix = true;
+    }
+
+    // Fix more restrictions :(
+    if (jsonNewsAttributes.getPublishedAt() == null || jsonNewsAttributes.getPublishedAt().toString().length() == 0) {
+      jsonNewsAttributes.setPublishedAt("No datetime.");
+      needFix = true;
+    }
+
+    // Fix more restrictions :(
+    if (jsonNewsAttributes.getUrlImage() == null || jsonNewsAttributes.getUrlImage().toString().length() == 0) {
+      jsonNewsAttributes.setUrlImage("No image.");
+      needFix = true;
+    }
+
+    // Fix more restrictions :(
+    if (jsonNewsAttributes.getUrl() == null || jsonNewsAttributes.getUrl().toString().length() == 0) {
+      jsonNewsAttributes.setUrl("No url.");
+      needFix = true;
+    }
+
+    // Fix more restrictions :(
+    if (jsonNewsAttributes.getTitle() == null || jsonNewsAttributes.getTitle().toString().length() == 0) {
+      jsonNewsAttributes.setTitle("No title.");
+      needFix = true;
+    }
+
+    // Warning message.
+    if (needFix) {
+      // Debug of Article
+      log.warn("Article with invalid restrictions: {}.", ToStringBuilder.reflectionToString(
+          jsonNewsAttributes, ToStringStyle.MULTI_LINE_STYLE
+      ));
+    }
+
+    // The date
+    ZonedDateTime publishedAt = ZonedDateTime
+        .parse(jsonNewsAttributes.getPublishedAt())
+        .withZoneSameInstant(ZoneId.of("-3"));
+
+    // The News
+    return new News(
+        jsonNewsAttributes.getTitle(),
+        jsonNewsAttributes.getSource(),
+        jsonNewsAttributes.getAuthor(),
+        jsonNewsAttributes.getUrl(),
+        jsonNewsAttributes.getUrlImage(),
+        jsonNewsAttributes.getDescription(),
+        jsonNewsAttributes.getContent(),
+        publishedAt
+    );
+  }
+
+  /**
    * Get the list of News.
    *
    * @param size of the list.
@@ -146,25 +221,56 @@ public class ContractsImplNewsApi implements Contracts {
           "technology", size
       );
 
-      // The List of Articles to List of News
-      List<News> news = new ArrayList<>();
-      for (Article article : articles) {
-        //log.debug("Article: {}", ToStringBuilder.reflectionToString(article, ToStringStyle.
-        // MULTI_LINE_STYLE));
-        news.add(toNews(article));
-      }
-      return news.stream()
-          // Remote the duplicates (by id)
-          .filter(distintById(News::getId))
-          // Sort the stream by publishedAt
-          .sorted((k1,k2)->k2.getPublishedAt().compareTo(k1.getPublishedAt()))
-          // Return the stream to list
-          .collect(Collectors.toList());
+      //Request to LaravelNewsApi
+      List<JsonNewsData> laravelNews = newsApiService.getLaravelNews(
+          "desc", "date", size
+      );
+
+      //List<News> news = this.articlesToListOfNews(articles);
+      return(this.laravelNewsToListOfNews(laravelNews));
 
     } catch (IOException ex) {
       log.error("Error", ex);
       return null;
     }
+  }
+
+  private List<News> articlesToListOfNews(List<Article> articles){
+    // The List of Articles to List of News
+    List<News> news = new ArrayList<>();
+    for (Article article : articles) {
+      //log.debug("Article: {}", ToStringBuilder.reflectionToString(article, ToStringStyle.
+      // MULTI_LINE_STYLE));
+      news.add(toNews(article));
+    }
+    return news.stream()
+        // Remote the duplicates (by id)
+        .filter(distintById(News::getId))
+        // Sort the stream by publishedAt
+        .sorted((k1,k2)->k2.getPublishedAt().compareTo(k1.getPublishedAt()))
+        // Return the stream to list
+        .collect(Collectors.toList());
+  }
+
+  private List<News> laravelNewsToListOfNews(List<JsonNewsData> laravelNews){
+    // The List of Articles to List of News
+    List<News> news = new ArrayList<>();
+
+    for (JsonNewsData jsonNewsData : laravelNews) {
+      ArrayList<JsonNewsItem> jsonNewsItems = (ArrayList<JsonNewsItem>) jsonNewsData.getDataList();
+      for(JsonNewsItem jsonItem : jsonNewsItems){
+        news.add(laravelNewstoNews(jsonItem.getJsonNewsAttributes()));
+      }
+      //log.debug("Article: {}", ToStringBuilder.reflectionToString(article, ToStringStyle.
+      // MULTI_LINE_STYLE));
+    }
+    return news.stream()
+        // Remote the duplicates (by id)
+        .filter(distintById(News::getId))
+        // Sort the stream by publishedAt
+        .sorted((k1,k2)->k2.getPublishedAt().compareTo(k1.getPublishedAt()))
+        // Return the stream to list
+        .collect(Collectors.toList());
   }
 
   /**
@@ -190,4 +296,3 @@ public class ContractsImplNewsApi implements Contracts {
     throw new NotImplementedException("Can't save in NewsAPI");
   }
 }
-
