@@ -10,11 +10,20 @@
 
 package cl.ucn.disc.dsm.dcanto.news.services;
 
+// newsapilib imports
+import cl.ucn.disc.dsm.dcanto.news.model.newsjson.JsonNewsData;
+import cl.ucn.disc.dsm.dcanto.news.model.response.LaravelNewsResponse;
+import cl.ucn.disc.dsm.dcanto.news.network.APILaravelClient;
+import cl.ucn.disc.dsm.dcanto.news.network.APILaravelService;
 import com.kwabenaberko.newsapilib.models.Article;
 import com.kwabenaberko.newsapilib.models.response.ArticleResponse;
 import com.kwabenaberko.newsapilib.network.APIClient;
 import com.kwabenaberko.newsapilib.network.APIService;
+
+// laravelapi imports
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,10 +41,17 @@ public final class NewsApiService {
    * The Key.
    */
   private final String apiKey;
+
   /**
    * The sub-service.
    */
   private final APIService apiService;
+
+  /**
+   * The laravelApi sub-service.
+   */
+  private final APILaravelService laravelApiService;
+
 
   /**
    * The Constructor
@@ -46,6 +62,7 @@ public final class NewsApiService {
     Validation.notNull(apiKey,"apiKey");
     this.apiKey = apiKey;
     this.apiService = APIClient.getAPIService();
+    this.laravelApiService = APILaravelClient.getAPIService();
   }
 
   /**
@@ -64,6 +81,7 @@ public final class NewsApiService {
     }
     // TODO: Implements the correct map to request parameters.
     // https://newsapi.org/docs/endpoints/top-headlines
+
 
     // The map of parameters.
     Map<String, String> query = new HashMap<>();
@@ -85,5 +103,92 @@ public final class NewsApiService {
     }
 
     throw new RuntimeException("Error: " + response.code() + " --> " + response.errorBody().string());
+  }
+
+
+  /**
+   * The getLaravelNews adaptor.
+   *
+   * @param sort to make ascendant o descendant list.
+   * @param sortParameter to order by.
+   * @param pageSize
+   * @return the List of LaravelNews.
+   * @throws IOException in case of error.
+   */
+  public List<JsonNewsData> getLaravelNews(final String sort, final String sortParameter, final Integer pageSize) throws IOException {
+    //TODO crear validaciones para estos parametros
+    Validation.notNull(pageSize, "pageSize");
+    if(pageSize < 1) {
+      throw  new IllegalArgumentException("Error: pageSize need to be > 0");
+    }
+    // TODO: Implements the correct map to request parameters.
+    // https://newsapi.org/docs/endpoints/top-headlines
+
+    //127.0.0.1:8000/api/v1/news?sort=published_at&page[number]=1&page[size]=10
+
+    ArrayList<String> parameters;
+    parameters = this.parametersToQuery(sort,sortParameter,pageSize,1);
+    // The map of parameters.
+    Map<String, String> query = new HashMap<>();
+    query.put("sort", parameters.get(0)+parameters.get(1));
+    query.put("page[number]", parameters.get(2));
+    query.put("page[size]", parameters.get(3));
+
+    // The response (sincronic!)
+    Response<LaravelNewsResponse> response = laravelApiService.getLaravelNews(query).execute();
+
+    // All ok, return the data
+    if (response.isSuccessful()) {
+      return response.body().getNews();
+    }
+
+    throw new RuntimeException("Error: " + response.code() + " --> " + response.errorBody().string());
+  }
+
+  private ArrayList<String> parametersToQuery(final String sort, final String sortParameter, final Integer pageSize, Integer pageNumber){
+    ArrayList<String> parameters = new ArrayList<String>();
+    if(sort=="asc"){
+      parameters.add("");
+    }
+    else if(sort=="desc")
+    {
+      parameters.add("-");
+    }
+    else
+    {
+      //TODO Throw new exception parametro invalido
+    }
+
+    if(sortParameter.toLowerCase() != "date" || sortParameter.toLowerCase() != "title"){
+      //TODO Throw new exception parametro invalido
+    }
+    else
+    {
+      if(sortParameter.toLowerCase() == "date"){
+        parameters.add("published_at");
+      }
+      else
+      {
+        parameters.add("title");
+      }
+    }
+
+    if(pageSize == null || pageSize < 1){
+      //TODO Throw new exception parametro invalido
+    }
+    else
+    {
+      parameters.add(pageSize.toString());
+    }
+
+    if(pageNumber < 0)
+    {
+      //TODO Throw new exception parametro invalido
+    }
+    else
+    {
+      parameters.add(pageNumber.toString());
+    }
+    return parameters;
   }
 }
