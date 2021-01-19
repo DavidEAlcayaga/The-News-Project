@@ -106,4 +106,11 @@ dependencies {
     implementation 'com.mikepenz:fastadapter-commons:3.3.1'
     implementation 'com.mikepenz:fastadapter-extensions-expandable:3.3.1'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+
+    // Room Library
+    // Room Version
+    def room_version = "2.2.5"
+    // Implementation
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
 }
