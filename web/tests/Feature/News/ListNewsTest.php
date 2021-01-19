@@ -50,7 +50,7 @@ class ListNewsTest extends TestCase
 
         $response = $this->getJson(route('api.v1.news.index'));
 
-        $response->assertJsonFragment([
+        $response->assertJson([
             'data' => [
                 [
                     'type' => 'news',

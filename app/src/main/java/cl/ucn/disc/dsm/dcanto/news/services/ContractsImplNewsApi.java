@@ -58,7 +58,7 @@ public class ContractsImplNewsApi implements Contracts {
    * @param theApiKey to use.
    */
   public ContractsImplNewsApi(final String theApiKey) {
-    Validation.minSize(theApiKey,10,"ApiKey !!");
+    //Validation.minSize(theApiKey,10,"ApiKey !!");
     this.newsApiService = new NewsApiService(theApiKey);
   }
 
@@ -217,9 +217,10 @@ public class ContractsImplNewsApi implements Contracts {
     try {
 
       //Request to NewsApi
+      /**
       List<Article> articles = newsApiService.getTopHeadlines(
           "technology", size
-      );
+      );*/
 
       //Request to LaravelNewsApi
       List<JsonNewsData> laravelNews = newsApiService.getLaravelNews(

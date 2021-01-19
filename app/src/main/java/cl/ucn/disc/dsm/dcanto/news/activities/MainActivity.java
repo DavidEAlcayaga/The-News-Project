@@ -1,3 +1,4 @@
+
 /*
  * Copyright 2020 David Canto-Alcayaga davidcanto01@gmail.com
  *
@@ -10,6 +11,8 @@
 
 package cl.ucn.disc.dsm.dcanto.news.activities;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +21,8 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,6 +36,7 @@ import cl.ucn.disc.dsm.dcanto.news.services.Contracts;
 import cl.ucn.disc.dsm.dcanto.news.services.ContractsImplNewsApi;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.adapters.ModelAdapter;
+import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
