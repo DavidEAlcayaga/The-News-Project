@@ -15,6 +15,8 @@ import cl.ucn.disc.dsm.dcanto.news.model.newsjson.JsonNewsData;
 import cl.ucn.disc.dsm.dcanto.news.model.newsjson.JsonNewsItem;
 import com.kwabenaberko.newsapilib.models.Article;
 
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -31,9 +33,12 @@ import org.threeten.bp.ZonedDateTime;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Timestamp;
+import java.util.Date;
 
 import cl.ucn.disc.dsm.dcanto.news.model.News;
 import cl.ucn.disc.dsm.dcanto.news.utils.Validation;
+import org.threeten.bp.format.DateTimeFormatter;
 
 /**
  * The NewsAPI implementation via Retrofit.
@@ -157,14 +162,14 @@ public class ContractsImplNewsApi implements Contracts {
     }
 
     // Fix more restrictions :(
-    if (jsonNewsAttributes.getPublishedAt() == null || jsonNewsAttributes.getPublishedAt().toString().length() == 0) {
-      jsonNewsAttributes.setPublishedAt("No datetime.");
+    if (jsonNewsAttributes.getPublished_at() == null || jsonNewsAttributes.getPublished_at().toString().length() == 0) {
+      jsonNewsAttributes.setPublished_at("No datetime.");
       needFix = true;
     }
 
     // Fix more restrictions :(
-    if (jsonNewsAttributes.getUrlImage() == null || jsonNewsAttributes.getUrlImage().toString().length() == 0) {
-      jsonNewsAttributes.setUrlImage("No image.");
+    if (jsonNewsAttributes.getUrl_image() == null || jsonNewsAttributes.getUrl_image().toString().length() == 0) {
+      jsonNewsAttributes.setUrl_image("No image.");
       needFix = true;
     }
 
@@ -188,18 +193,25 @@ public class ContractsImplNewsApi implements Contracts {
       ));
     }
 
-    // The date
-    ZonedDateTime publishedAt = ZonedDateTime
-        .parse(jsonNewsAttributes.getPublishedAt())
-        .withZoneSameInstant(ZoneId.of("-3"));
+    String published_at = jsonNewsAttributes.getPublished_at();
+    long unixTimestamp = Long.parseLong(published_at);
 
-    // The News
+    Date date = new java.util.Date(unixTimestamp*1000L);
+    SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+    String formattedDate = sdf.format(date);
+
+    log.debug("UnixTimestamp: "+String.valueOf(unixTimestamp));
+    log.debug("DateTime: "+String.valueOf(formattedDate));
+
+    org.threeten.bp.format.DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z");
+    ZonedDateTime publishedAt = ZonedDateTime.parse(formattedDate, formatter).withZoneSameInstant(ZoneId.of("-3"));
+
     return new News(
         jsonNewsAttributes.getTitle(),
         jsonNewsAttributes.getSource(),
         jsonNewsAttributes.getAuthor(),
         jsonNewsAttributes.getUrl(),
-        jsonNewsAttributes.getUrlImage(),
+        jsonNewsAttributes.getUrl_image(),
         jsonNewsAttributes.getDescription(),
         jsonNewsAttributes.getContent(),
         publishedAt
@@ -223,7 +235,7 @@ public class ContractsImplNewsApi implements Contracts {
       );*/
 
       //Request to LaravelNewsApi
-      List<JsonNewsData> laravelNews = newsApiService.getLaravelNews(
+      List<JsonNewsItem> laravelNews = newsApiService.getLaravelNews(
           "desc", "date", size
       );
 
@@ -253,18 +265,21 @@ public class ContractsImplNewsApi implements Contracts {
         .collect(Collectors.toList());
   }
 
-  private List<News> laravelNewsToListOfNews(List<JsonNewsData> laravelNews){
+  private List<News> laravelNewsToListOfNews(List<JsonNewsItem> laravelNews){
     // The List of Articles to List of News
     List<News> news = new ArrayList<>();
 
-    for (JsonNewsData jsonNewsData : laravelNews) {
-      ArrayList<JsonNewsItem> jsonNewsItems = (ArrayList<JsonNewsItem>) jsonNewsData.getDataList();
-      for(JsonNewsItem jsonItem : jsonNewsItems){
-        news.add(laravelNewstoNews(jsonItem.getJsonNewsAttributes()));
-      }
+    for(JsonNewsItem jsonItem : laravelNews){
+      log.debug("The News Title: "+jsonItem.getAttributes().getTitle());
+      news.add(laravelNewstoNews(jsonItem.getAttributes()));
+    }
       //log.debug("Article: {}", ToStringBuilder.reflectionToString(article, ToStringStyle.
       // MULTI_LINE_STYLE));
+
+    if(news.size()==0){
+      log.debug("Empty list of news");
     }
+    log.debug("The size of list of news: "+String.valueOf(news.size()));
     return news.stream()
         // Remote the duplicates (by id)
         .filter(distintById(News::getId))

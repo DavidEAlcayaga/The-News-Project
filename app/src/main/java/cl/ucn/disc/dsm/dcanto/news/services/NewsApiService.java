@@ -12,7 +12,7 @@ package cl.ucn.disc.dsm.dcanto.news.services;
 
 // newsapilib imports
 import cl.ucn.disc.dsm.dcanto.news.model.newsjson.JsonNewsData;
-import cl.ucn.disc.dsm.dcanto.news.model.response.LaravelNewsResponse;
+import cl.ucn.disc.dsm.dcanto.news.model.newsjson.JsonNewsItem;
 import cl.ucn.disc.dsm.dcanto.news.network.APILaravelClient;
 import cl.ucn.disc.dsm.dcanto.news.network.APILaravelService;
 import com.kwabenaberko.newsapilib.models.Article;
@@ -28,6 +28,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import cl.ucn.disc.dsm.dcanto.news.utils.Validation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import retrofit2.Response;
 
 /**
@@ -36,6 +38,11 @@ import retrofit2.Response;
  * @author David Canto-Alcayaga
  */
 public final class NewsApiService {
+
+  /**
+   * The Logger.
+   */
+  private static final Logger log = LoggerFactory.getLogger(NewsApiService.class);
 
   /**
    * The Key.
@@ -115,7 +122,7 @@ public final class NewsApiService {
    * @return the List of LaravelNews.
    * @throws IOException in case of error.
    */
-  public List<JsonNewsData> getLaravelNews(final String sort, final String sortParameter, final Integer pageSize) throws IOException {
+  public List<JsonNewsItem> getLaravelNews(final String sort, final String sortParameter, final Integer pageSize) throws IOException {
     //TODO crear validaciones para estos parametros
     Validation.notNull(pageSize, "pageSize");
     if(pageSize < 1) {
@@ -130,16 +137,18 @@ public final class NewsApiService {
     parameters = this.parametersToQuery(sort,sortParameter,pageSize,1);
     // The map of parameters.
     Map<String, String> query = new HashMap<>();
+    log.debug(String.valueOf(parameters));
     query.put("sort", parameters.get(0)+parameters.get(1));
-    query.put("page[number]", parameters.get(2));
-    query.put("page[size]", parameters.get(3));
+    query.put("page[number]", parameters.get(3));
+    query.put("page[size]", parameters.get(2));
+    log.debug(query.toString());
 
     // The response (sincronic!)
-    Response<LaravelNewsResponse> response = laravelApiService.getLaravelNews(query).execute();
+    Response<JsonNewsData> response = laravelApiService.getLaravelNews(query).execute();
 
     // All ok, return the data
     if (response.isSuccessful()) {
-      return response.body().getNews();
+      return response.body().getData();
     }
 
     throw new RuntimeException("Error: " + response.code() + " --> " + response.errorBody().string());
@@ -149,16 +158,19 @@ public final class NewsApiService {
     ArrayList<String> parameters = new ArrayList<String>();
     if(sort=="asc"){
       parameters.add("");
+      log.debug("added void");
     }
     else if(sort=="desc")
     {
       parameters.add("-");
+      log.debug("added -");
     }
     else
     {
       //TODO Throw new exception parametro invalido
     }
 
+    /**
     if(sortParameter.toLowerCase() != "date" || sortParameter.toLowerCase() != "title"){
       //TODO Throw new exception parametro invalido
     }
@@ -166,12 +178,16 @@ public final class NewsApiService {
     {
       if(sortParameter.toLowerCase() == "date"){
         parameters.add("published_at");
+        log.debug("added published_at");
       }
       else
       {
         parameters.add("title");
+        log.debug("added title");
       }
-    }
+    }*/
+    parameters.add("published_at");
+    log.debug("added published_at");
 
     if(pageSize == null || pageSize < 1){
       //TODO Throw new exception parametro invalido
@@ -179,15 +195,17 @@ public final class NewsApiService {
     else
     {
       parameters.add(pageSize.toString());
+      log.debug("added pageSize");
     }
 
-    if(pageNumber < 0)
+    if(pageNumber < 1)
     {
       //TODO Throw new exception parametro invalido
     }
     else
     {
       parameters.add(pageNumber.toString());
+      log.debug("added pageNumber");
     }
     return parameters;
   }
