@@ -10,6 +10,7 @@
 
 package cl.ucn.disc.dsm.dcanto.news.network;
 
+import cl.ucn.disc.dsm.dcanto.news.model.newsjson.JsonNewsData;
 import cl.ucn.disc.dsm.dcanto.news.model.response.LaravelNewsResponse;
 
 import java.util.Map;
@@ -20,7 +21,7 @@ import retrofit2.http.QueryMap;
 
 public interface APILaravelService {
 
-  @GET("/v1/news")
-  Call<LaravelNewsResponse> getLaravelNews(@QueryMap Map<String, String> query);
+  @GET("v1/news")
+  Call<JsonNewsData> getLaravelNews(@QueryMap Map<String, String> query);
 
 }
