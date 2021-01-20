@@ -20,7 +20,7 @@ public class APILaravelClient {
   private static Retrofit getRetrofit(){
     if(mRetrofit == null){
       mRetrofit = new Retrofit.Builder()
-          .baseUrl("10.0.2.2:8000/api")
+          .baseUrl("http://192.168.1.92:8000/api/")
           .addConverterFactory(GsonConverterFactory.create())
           .build();
     }
