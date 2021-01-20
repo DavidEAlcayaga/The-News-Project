@@ -10,19 +10,17 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
   android:layout_height="wrap_content"
   android:layout_width="match_parent"
   android:orientation="horizontal"
   android:paddingBottom="4dp">
 
-  <ImageView
-    android:layout_width="80dp"
-    android:layout_height="80dp"
-    android:paddingStart="2dp"
-    android:paddingEnd="2dp"
-    android:src="@mipmap/ic_launcher"
-    android:paddingTop="2dp"/>
+  <com.facebook.drawee.view.SimpleDraweeView
+      android:id="@+id/my_image_view"
+      fresco:placeholderImage="@mipmap/ic_launcher"
+      android:layout_width="130dp"
+      android:layout_height="130dp" />
 
   <LinearLayout
     android:layout_width="match_parent"
