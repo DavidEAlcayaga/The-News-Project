@@ -15,7 +15,11 @@ class NewsController extends Controller
 {
     public function index()
     {
-        $news = News::applySorts()->jsonPaginate();
+        //$query = News::query();
+
+        //$news = $query->applySorts()->jsonPaginate();
+
+        $news = News::applyFilters()->applySorts()->jsonPaginate();
 
         return NewsCollection::make($news);
     }
