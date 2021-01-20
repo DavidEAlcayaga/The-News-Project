@@ -36,6 +36,8 @@ import cl.ucn.disc.dsm.dcanto.news.adapters.NewsItem;
 import cl.ucn.disc.dsm.dcanto.news.services.AppDatabase;
 import cl.ucn.disc.dsm.dcanto.news.services.Contracts;
 import cl.ucn.disc.dsm.dcanto.news.services.ContractsImplNewsApi;
+
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.adapters.ModelAdapter;
 import java.util.ArrayList;
@@ -69,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    Fresco.initialize(this);
 
     log.debug("onCreate ..");
     setContentView(R.layout.activity_main);
