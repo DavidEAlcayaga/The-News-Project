@@ -10,44 +10,33 @@
 
 package cl.ucn.disc.dsm.dcanto.news.model.newsjson;
 
-import java.util.List;
+public class JsonMetaLinks {
 
-public class JsonNewsItem {
+  private String url;
+  private String label;
+  private boolean active;
 
-  private String type;
-  private String id;
-  private JsonNewsAttributes attributes;
-  private JsonNewsLinks links;
-
-  public String getType() {
-    return type;
+  public String getUrl() {
+    return url;
   }
 
-  public void setType(String type) {
-    this.type = type;
+  public void setUrl(String url) {
+    this.url = url;
   }
 
-  public String getId() {
-    return id;
+  public String getLabel() {
+    return label;
   }
 
-  public void setId(String id) {
-    this.id = id;
+  public void setLabel(Object label) {
+    this.label = String.valueOf(label);
   }
 
-  public JsonNewsAttributes getAttributes() {
-    return attributes;
+  public boolean isActive() {
+    return active;
   }
 
-  public void setAttributes(JsonNewsAttributes attributes) {
-    this.attributes = attributes;
-  }
-
-  public JsonNewsLinks getLinks() {
-    return links;
-  }
-
-  public void setLinks(JsonNewsLinks links) {
-    this.links = links;
+  public void setActive(boolean active) {
+    this.active = active;
   }
 }

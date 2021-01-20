@@ -58,4 +58,19 @@ class JsonApiBuilder
             return $this;
         };
     }
+
+    public function applyFilters(){
+
+        return function () {
+            foreach (request('filter', []) as $filter => $value) {
+                if($filter === 'year') {
+                    $this->whereYear('published_at', $value);
+                }
+                else {
+                    $this->where($filter, 'LIKE', "%{$value}%");
+                }
+            }
+            return $this;
+        };
+    }
 }

@@ -10,44 +10,42 @@
 
 package cl.ucn.disc.dsm.dcanto.news.model.newsjson;
 
-import java.util.List;
+public class JsonDataLinks {
 
-public class JsonNewsItem {
+  private String first;
+  private String last;
+  private String prev;
+  private String next;
 
-  private String type;
-  private String id;
-  private JsonNewsAttributes attributes;
-  private JsonNewsLinks links;
-
-  public String getType() {
-    return type;
+  public String getFirst() {
+    return first;
   }
 
-  public void setType(String type) {
-    this.type = type;
+  public void setFirst(String first) {
+    this.first = first;
   }
 
-  public String getId() {
-    return id;
+  public String getLast() {
+    return last;
   }
 
-  public void setId(String id) {
-    this.id = id;
+  public void setLast(String last) {
+    this.last = last;
   }
 
-  public JsonNewsAttributes getAttributes() {
-    return attributes;
+  public String getPrev() {
+    return prev;
   }
 
-  public void setAttributes(JsonNewsAttributes attributes) {
-    this.attributes = attributes;
+  public void setPrev(String prev) {
+    this.prev = prev;
   }
 
-  public JsonNewsLinks getLinks() {
-    return links;
+  public String getNext() {
+    return next;
   }
 
-  public void setLinks(JsonNewsLinks links) {
-    this.links = links;
+  public void setNext(String next) {
+    this.next = next;
   }
 }

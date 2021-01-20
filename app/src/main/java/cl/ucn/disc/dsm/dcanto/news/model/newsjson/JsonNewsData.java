@@ -14,13 +14,32 @@ import java.util.List;
 
 public class JsonNewsData {
 
-  private List<JsonNewsItem> dataList;
+  private List<JsonNewsItem> data;
+  private JsonDataLinks links;
+  private JsonNewsPagination meta;
 
-  public List<JsonNewsItem> getDataList() {
-    return dataList;
+  public List<JsonNewsItem> getData() {
+    return data;
   }
 
-  public void setDataList(List<JsonNewsItem> dataList) {
-    this.dataList = dataList;
+  public void setData(List<JsonNewsItem> data) {
+    this.data = data;
   }
+
+  public JsonDataLinks getLinks() {
+    return links;
+  }
+
+  public void setLinks(JsonDataLinks links) {
+    this.links = links;
+  }
+
+  public JsonNewsPagination getMeta() {
+    return meta;
+  }
+
+  public void setMeta(JsonNewsPagination meta) {
+    this.meta = meta;
+  }
+
 }

@@ -42,7 +42,7 @@ public class JsonNewsAttributes {
   /**
    * The URL of image.
    */
-  private String urlImage;
+  private String url_image;
 
   /**
    * The Description.
@@ -57,7 +57,7 @@ public class JsonNewsAttributes {
   /**
    * The Content.
    */
-  private String publishedAt;
+  private String published_at;
 
   public Long getId() {
     return id;
@@ -99,13 +99,9 @@ public class JsonNewsAttributes {
     this.url = url;
   }
 
-  public String getUrlImage() {
-    return urlImage;
-  }
+  public String getUrl_image() { return url_image; }
 
-  public void setUrlImage(String urlImage) {
-    this.urlImage = urlImage;
-  }
+  public void setUrl_image(String url_image) { this.url_image = url_image; }
 
   public String getDescription() {
     return description;
@@ -123,13 +119,7 @@ public class JsonNewsAttributes {
     this.content = content;
   }
 
-  public String getPublishedAt() {
-    return publishedAt;
-  }
+  public String getPublished_at() { return published_at; }
 
-  public void setPublishedAt(String publishedAt) {
-    this.publishedAt = publishedAt;
-  }
-
-
+  public void setPublished_at(String published_at) { this.published_at = published_at; }
 }
