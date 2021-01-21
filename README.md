@@ -18,10 +18,10 @@
   2. With a php IDE in the web folder:
     - php ../composer.phar install or upgrade
     - copy the .env.example file and rename as .env, then configure the .env with your specifications and the following parameters:
-      - APP_URL= [Your local ip in the device, not the loopback]
-      - DB_CONNECTION=sqlite
-      - DB_DATABASE= [The path to the database]
-      - DB_HOST=[Your local ip in the device, not the loopback]
+      * APP_URL= [Your local ip in the device, not the loopback]
+      * DB_CONNECTION=sqlite
+      * DB_DATABASE= [The path to the database]
+      * DB_HOST=[Your local ip in the device, not the loopback]
     - create a new file named "database.sqlite" in the database folder
     - execute php artisan key:generate
     - execute php artisan serve --host [Your device ip]
