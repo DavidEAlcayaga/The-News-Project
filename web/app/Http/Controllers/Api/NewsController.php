@@ -23,6 +23,7 @@ class NewsController extends Controller
      */
     public function index()
     {
+
         $news = News::applyFilters()->applySorts()->jsonPaginate();
 
         return NewsCollection::make($news);
@@ -36,6 +37,7 @@ class NewsController extends Controller
      */
     public function show(News $news)
     {
+
         return NewsResource::make($news);
     }
 }
