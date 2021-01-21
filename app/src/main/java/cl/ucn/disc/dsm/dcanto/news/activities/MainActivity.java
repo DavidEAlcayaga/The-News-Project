@@ -100,10 +100,6 @@ public class MainActivity extends AppCompatActivity {
 
     if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
 
-      // Thread for clear the Db
-      Thread thread = new Thread(() -> AppDatabase.getInstance(getApplicationContext()).newsDao().wipeData());
-      thread.start();
-
       // Get the news in the background thread
       AsyncTask.execute(() -> {
 
@@ -112,6 +108,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Get the news from NewsAPI (Internet!)
         List<News> listNews = contracts.retrieveNews(30);
+
+        // Clears the Db
+        AppDatabase.getInstance(getApplicationContext()).newsDao().wipeData();
 
         // Build the simple adapter to show the list of news (String!)
         ArrayAdapter<String> adapter = new ArrayAdapter(
@@ -144,10 +143,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onRefresh() {
 
-          // Clears the Db
-          Thread thread = new Thread(() -> AppDatabase.getInstance(getApplicationContext()).newsDao().wipeData());
-          thread.start();
-
           // Clear screen
           newsAdapter.clear();
 
@@ -157,6 +152,9 @@ public class MainActivity extends AppCompatActivity {
 
             // Get the news from NewsAPI (Internet!)
             List<News> listNews = contracts.retrieveNews(30);
+
+            // Clears the Db
+            AppDatabase.getInstance(getApplicationContext()).newsDao().wipeData();
 
             // Replace the data
             for (int i = 0; i < listNews.size()-1; i++) {
