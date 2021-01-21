@@ -11,12 +11,10 @@
 package cl.ucn.disc.dsm.dcanto.news.services;
 
 import cl.ucn.disc.dsm.dcanto.news.model.newsjson.JsonNewsAttributes;
-import cl.ucn.disc.dsm.dcanto.news.model.newsjson.JsonNewsData;
 import cl.ucn.disc.dsm.dcanto.news.model.newsjson.JsonNewsItem;
 import com.kwabenaberko.newsapilib.models.Article;
 
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -33,7 +31,6 @@ import org.threeten.bp.ZonedDateTime;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.Timestamp;
 import java.util.Date;
 
 import cl.ucn.disc.dsm.dcanto.news.model.News;
@@ -229,23 +226,51 @@ public class ContractsImplNewsApi implements Contracts {
     try {
 
       //Request to NewsApi
-      /**
+
       List<Article> articles = newsApiService.getTopHeadlines(
           "technology", size
-      );*/
+      );
 
       //Request to LaravelNewsApi
       List<JsonNewsItem> laravelNews = newsApiService.getLaravelNews(
           "desc", "date", size
       );
 
-      //List<News> news = this.articlesToListOfNews(articles);
-      return(this.laravelNewsToListOfNews(laravelNews));
+      // return new list
+      return(this.resultToListOfNews(articles, laravelNews));
 
     } catch (IOException ex) {
       log.error("Error", ex);
       return null;
     }
+  }
+
+  /**
+   *
+   * Join List
+   *
+   * @param articles The list api news
+   * @param laravelNews the list larave lnews
+   * @return
+   */
+  public List<News> resultToListOfNews(List<Article> articles, List<JsonNewsItem> laravelNews ) {
+
+    // isEmpty
+    if(laravelNews.isEmpty()){
+
+      // return article list
+      return(this.articlesToListOfNews(articles));
+
+    }else{
+
+      // create new articles list and add laravelNewsList
+      List<News> resultList = new ArrayList<News>(this.articlesToListOfNews(articles));
+      resultList.addAll(this.laravelNewsToListOfNews(laravelNews));
+
+      // return new list
+      return(resultList);
+    }
+
   }
 
   private List<News> articlesToListOfNews(List<Article> articles){
@@ -288,6 +313,7 @@ public class ContractsImplNewsApi implements Contracts {
         // Return the stream to list
         .collect(Collectors.toList());
   }
+  //
 
   /**
    * Filter the stream.
