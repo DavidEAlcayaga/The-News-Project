@@ -3,11 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Models\News;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 class NewsController extends Controller
 {
+    /**
+     * The array to convert month in spanish to english language
+     * @var string[]
+     */
+    private $months = [
+        "enero" => "January",
+        "febrero" => "February",
+        "marzo" => "March",
+        "abril" => "April",
+        "mayo" => "May",
+        "junio" => "June",
+        "julio" => "July",
+        "agosto" => "August",
+        "septiembre" => "September",
+        "octubre" => "October",
+        "noviembre" => "November",
+        "diciembre" => "December",
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -79,12 +98,19 @@ class NewsController extends Controller
         $news->content = $request->input('content');
 
         // Get's the publish date of the news from the form
-        $news->published_at = $request->input('date');
+        /**
+        date_default_timezone_set('America/Santiago');
+        setlocale(LC_TIME, "spanish");
+        $inputFormat = "%A, %d de %B de %Y %H:%M:%S"
+        $strf = strftime($inputFormat);
+        strptime()
+        $date_actual1 = date("H:i:s");*/
 
+        $published_at_input = $this->mesToMonth($request->input('date'));
+        $news->published_at = $this->parsePublishedAttoDateTime($published_at_input);
         // Save the news into the Db
         $news->save();
         $news = News::all();
-
         return back()->with('message', 'You have added a news successfully!');
     }
 
@@ -147,5 +173,34 @@ class NewsController extends Controller
         $data = News::find($id);
         $data -> delete();
         return redirect('listadonoticias');
+    }
+
+    /**
+     * The published_at format in the view to a dateTime format
+     * @param $published_at_input
+     */
+    private function parsePublishedAttoDateTime($published_at_input){
+        date_default_timezone_set('America/Santiago');
+        setlocale(LC_TIME,"spanish");
+        error_log((string)$published_at_input);
+        $inputFormat = "*, j * F * Y H:i:s";
+        $dateTimeValue = DateTime::createFromFormat($inputFormat, $published_at_input);
+        error_log($dateTimeValue->format('Y-m-d H:i:s'));
+        error_log((string)$dateTimeValue->format('U'));
+        return (string)$dateTimeValue->format('U');
+    }
+
+    /**
+     * The mes to month function using the array on the top of this code.
+     *
+     * @param $published_at
+     * @return string|string[]
+     */
+    private function mesToMonth($published_at){
+        $success = false;
+        foreach($this->months as $key => $data){
+            $published_at = str_replace($key,$data,$published_at);
+        }
+        return $published_at;
     }
 }
