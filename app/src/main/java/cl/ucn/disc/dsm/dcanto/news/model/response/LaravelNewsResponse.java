@@ -14,6 +14,10 @@ import cl.ucn.disc.dsm.dcanto.news.model.newsjson.JsonNewsData;
 import java.util.List;
 
 //127.0.0.1:8000/api/v1/news?sort=published_at&page[number]=1&page[size]=10
+
+/**
+ * Makes the response of the News data
+ */
 public class LaravelNewsResponse {
 
   private List<JsonNewsData> jsonNewsData;

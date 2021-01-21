@@ -14,6 +14,9 @@ import androidx.room.TypeConverter;
 
 import org.threeten.bp.ZonedDateTime;
 
+/**
+ * Converter to manage the dates in the Room DB
+ */
 public class Converters {
 
     @TypeConverter

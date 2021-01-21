@@ -23,5 +23,4 @@ public interface APILaravelService {
 
   @GET("v1/news")
   Call<JsonNewsData> getLaravelNews(@QueryMap Map<String, String> query);
-
 }

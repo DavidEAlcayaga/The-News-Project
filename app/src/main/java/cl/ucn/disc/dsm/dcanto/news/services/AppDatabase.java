@@ -25,6 +25,10 @@ import cl.ucn.disc.dsm.dcanto.news.utils.Converters;
 
 @Database(entities = {News.class}, version = 1)
 @TypeConverters(Converters.class)
+
+/**
+ * The Room Database
+ */
 public abstract class AppDatabase extends RoomDatabase {
 
     // Create Db Instance
@@ -50,7 +54,6 @@ public abstract class AppDatabase extends RoomDatabase {
                     .allowMainThreadQueries()
                     .fallbackToDestructiveMigration()
                     .build();
-
         }
 
         // Return instance

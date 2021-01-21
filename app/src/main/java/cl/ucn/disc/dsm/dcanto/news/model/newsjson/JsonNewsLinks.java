@@ -12,6 +12,10 @@ package cl.ucn.disc.dsm.dcanto.news.model.newsjson;
 
 import java.util.List;
 
+/**
+ *
+ * List of links related to the news
+ */
 public class JsonNewsLinks {
 
   private List<String> newsLinks;

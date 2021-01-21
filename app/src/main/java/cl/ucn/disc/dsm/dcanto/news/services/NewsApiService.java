@@ -123,15 +123,11 @@ public final class NewsApiService {
    * @throws IOException in case of error.
    */
   public List<JsonNewsItem> getLaravelNews(final String sort, final String sortParameter, final Integer pageSize) throws IOException {
-    //TODO crear validaciones para estos parametros
+
     Validation.notNull(pageSize, "pageSize");
     if(pageSize < 1) {
       throw  new IllegalArgumentException("Error: pageSize need to be > 0");
     }
-    // TODO: Implements the correct map to request parameters.
-    // https://newsapi.org/docs/endpoints/top-headlines
-
-    //127.0.0.1:8000/api/v1/news?sort=published_at&page[number]=1&page[size]=10
 
     ArrayList<String> parameters;
     parameters = this.parametersToQuery(sort,sortParameter,pageSize,1);
@@ -155,13 +151,16 @@ public final class NewsApiService {
   }
 
   private ArrayList<String> parametersToQuery(final String sort, final String sortParameter, final Integer pageSize, Integer pageNumber){
+
     ArrayList<String> parameters = new ArrayList<String>();
     if(sort=="asc"){
+
       parameters.add("");
       log.debug("added void");
     }
     else if(sort=="desc")
     {
+
       parameters.add("-");
       log.debug("added -");
     }
@@ -170,22 +169,6 @@ public final class NewsApiService {
       //TODO Throw new exception parametro invalido
     }
 
-    /**
-    if(sortParameter.toLowerCase() != "date" || sortParameter.toLowerCase() != "title"){
-      //TODO Throw new exception parametro invalido
-    }
-    else
-    {
-      if(sortParameter.toLowerCase() == "date"){
-        parameters.add("published_at");
-        log.debug("added published_at");
-      }
-      else
-      {
-        parameters.add("title");
-        log.debug("added title");
-      }
-    }*/
     parameters.add("published_at");
     log.debug("added published_at");
 

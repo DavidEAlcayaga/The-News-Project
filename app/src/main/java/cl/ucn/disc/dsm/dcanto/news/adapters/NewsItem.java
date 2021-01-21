@@ -97,7 +97,6 @@ public final class NewsItem extends ModelAbstractItem<News, NewsItem, NewsItem.V
       SimpleDraweeView draweeView = view.findViewById(R.id.my_image_view);
       draweeView.setImageURI(uri);
     }
-
   }
 }
 

@@ -11,10 +11,17 @@
 package cl.ucn.disc.dsm.dcanto.news.model.request;
 
 //127.0.0.1:8000/api/v1/news?sort=published_at&page[number]=1&page[size]=10
+
+/**
+ *
+ * Makes the pagination requests of the news
+ */
 public class LaravelNewsRequest {
+
   private String sort,sortParameter,pageNumber,pageSize;
 
   private LaravelNewsRequest(Builder builder){
+
     this.sort = builder.sort;
     this.sortParameter = builder.sortParameter;
     this.pageNumber = builder.pageNumber;
@@ -25,44 +32,43 @@ public class LaravelNewsRequest {
     return sort;
   }
 
-
   public String getSortParameter() {
     return sortParameter;
   }
 
-
   public String getPageNumber() { return pageNumber; }
-
 
   public String getPageSize() {
     return pageSize;
   }
 
-
   public static class Builder{
+
     private String sort, sortParameter, pageNumber, pageSize;
 
-
     public Builder sort(String sort){
+
       this.sort = String.valueOf(sort);
       return this;
     }
 
     public Builder sortParameter(String sortParameter){
+
       this.sortParameter = String.valueOf(sortParameter);
       return this;
     }
 
     public Builder pageNumber(int pageNumber){
+
       this.pageNumber = String.valueOf(pageNumber);
       return this;
     }
 
     public Builder pageSize(int pageSize){
+
       this.pageSize = String.valueOf(pageSize);
       return this;
     }
-
 
     public LaravelNewsRequest build(){
       return new LaravelNewsRequest(this);

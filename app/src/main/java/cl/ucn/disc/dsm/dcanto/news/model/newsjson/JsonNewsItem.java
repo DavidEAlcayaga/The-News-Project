@@ -12,6 +12,9 @@ package cl.ucn.disc.dsm.dcanto.news.model.newsjson;
 
 import java.util.List;
 
+/**
+ * The type of data recieved
+ */
 public class JsonNewsItem {
 
   private String type;

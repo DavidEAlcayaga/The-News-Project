@@ -10,6 +10,9 @@
 
 package cl.ucn.disc.dsm.dcanto.news.model.newsjson;
 
+/**
+ * The aditional metadata
+ */
 public class JsonMetaLinks {
 
   private String url;

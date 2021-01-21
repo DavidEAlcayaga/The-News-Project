@@ -13,13 +13,20 @@ package cl.ucn.disc.dsm.dcanto.news.network;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ *
+ * Creates the connection between the LaravelAPI and the Android App
+ */
 public class APILaravelClient {
 
   private static Retrofit mRetrofit = null;
 
   private static Retrofit getRetrofit(){
+
     if(mRetrofit == null){
+
       mRetrofit = new Retrofit.Builder()
+              // Here goes the Ip to connect to the laravelAPI
           .baseUrl("http://192.168.1.92:8000/api/")
           .addConverterFactory(GsonConverterFactory.create())
           .build();
@@ -29,6 +36,7 @@ public class APILaravelClient {
   }
 
   public static APILaravelService getAPIService(){
+
     return getRetrofit().create(APILaravelService.class);
   }
 }
