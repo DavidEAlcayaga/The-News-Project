@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\News;
 use DateTime;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 
 /**
  * The news controller for the web.
@@ -188,7 +187,6 @@ class NewsController extends Controller
 
         date_default_timezone_set('America/Santiago');
         setlocale(LC_TIME,"spanish");
-        error_log((string)$published_at_input);
         $inputFormat = "*, j * F * Y H:i:s";
         $dateTimeValue = DateTime::createFromFormat($inputFormat, $published_at_input);
 
