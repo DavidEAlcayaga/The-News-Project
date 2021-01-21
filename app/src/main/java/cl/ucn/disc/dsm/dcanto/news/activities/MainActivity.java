@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Local DB instance
     AppDatabase dataBase = Room.databaseBuilder(getApplicationContext(),
-            AppDatabase.class, "localDB").build();
+            AppDatabase.class, "localDb").build();
 
     // Checks conectivity
     ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
@@ -100,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
 
     if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
 
+      // Clears the Db
+      AppDatabase.getInstance(getApplicationContext()).newsDao().nukeTable();
       // Get the news in the background thread
       AsyncTask.execute(() -> {
 
@@ -108,9 +110,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Get the news from NewsAPI (Internet!)
         List<News> listNews = contracts.retrieveNews(30);
-
-        // Clears the Db
-        AppDatabase.getInstance(getApplicationContext()).newsDao().wipeData();
 
         // Build the simple adapter to show the list of news (String!)
         ArrayAdapter<String> adapter = new ArrayAdapter(
@@ -143,6 +142,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onRefresh() {
 
+          // Clears the Db
+          AppDatabase.getInstance(getApplicationContext()).newsDao().nukeTable();
           // Clear screen
           newsAdapter.clear();
 
@@ -153,8 +154,7 @@ public class MainActivity extends AppCompatActivity {
             // Get the news from NewsAPI (Internet!)
             List<News> listNews = contracts.retrieveNews(30);
 
-            // Clears the Db
-            AppDatabase.getInstance(getApplicationContext()).newsDao().wipeData();
+
 
             // Replace the data
             for (int i = 0; i < listNews.size()-1; i++) {

@@ -11,6 +11,7 @@
 package cl.ucn.disc.dsm.dcanto.news.model;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -21,7 +22,7 @@ import java.util.List;
 public interface NewsDao {
 
     // Get all the news
-    @Query("SELECT * FROM localDB ORDER BY publishedAt DESC")
+    @Query("SELECT * FROM localDb ORDER BY publishedAt DESC")
     List<News> getAll();
 
     // Insert into DB
@@ -29,6 +30,6 @@ public interface NewsDao {
     Long insertNews(News news);
 
     // Wipe the DB
-    @Query("DELETE  FROM localDB")
-    void wipeData();
+    @Query("DELETE  FROM localDb")
+    public void nukeTable();
 }
