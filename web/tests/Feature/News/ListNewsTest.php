@@ -6,7 +6,12 @@ use App\Models\News;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-//TODO agregar php docs
+/**
+ * The test to fetch the json api response.
+ *
+ * Class ListNewsTest
+ * @package Tests\Feature\News
+ */
 class ListNewsTest extends TestCase
 {
     use RefreshDatabase;

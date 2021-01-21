@@ -11,10 +11,23 @@
 
 namespace App\JsonApi;
 
+use Closure;
 use Illuminate\Support\Str;
 
+/**
+ * The json api builder with the paginate, sort and filters functions for index.
+ *
+ * Class JsonApiBuilder
+ * @package App\JsonApi
+ */
 class JsonApiBuilder
 {
+
+    /**
+     * Paginate the json api response.
+     *
+     * @return Closure
+     */
     public function jsonPaginate()
     {
         return function () {
@@ -27,6 +40,11 @@ class JsonApiBuilder
         };
     }
 
+    /**
+     * Apply sorts to the json api response
+     *
+     * @return Closure
+     */
     public function applySorts()
     {
         return function() {
@@ -59,6 +77,11 @@ class JsonApiBuilder
         };
     }
 
+    /**
+     * Apply the filters to the json api response.
+     *
+     * @return Closure
+     */
     public function applyFilters(){
 
         return function () {
