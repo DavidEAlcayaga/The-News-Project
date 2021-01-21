@@ -14,23 +14,31 @@
   In full development.
 
 ##  Implementation
-  1. Clone this repository in your local device using git clone https://github.com/DavidEAlcayaga/The-News-Project.git"
+  1. Clone this repository in your local device using git clone https://github.com/DavidEAlcayaga/The-News-Project.git
   2. With a php IDE in the web folder:
-    - php ../composer.phar install or upgrade
-    - copy the .env.example file and rename as .env, then configure the .env with your specifications and the following parameters:
-      * APP_URL= [Your local ip in the device, not the loopback]
-      * DB_CONNECTION=sqlite
-      * DB_DATABASE= [The path to the database]
-      * DB_HOST=[Your local ip in the device, not the loopback]
-    - create a new file named "database.sqlite" in the database folder
-    - execute php artisan key:generate
-    - execute php artisan serve --host [Your device ip]
+      - php ../composer.phar install or upgrade
+      - copy the .env.example file and rename as .env, then configure the .env with the following parameters:
+          - APP_URL= [Your local ip in the device, not the loopback]
+          - DB_CONNECTION=sqlite
+          - DB_DATABASE= [The path to the database]
+          - DB_HOST=[Your local ip in the device, not the loopback]
+      - create a new file named "database.sqlite" in the database folder
+      - execute php artisan key:generate
+      - execute php artisan serve --host [Your device ip]
   3. Configure and install the app using the IDE android studio:
-    - Change the baseurl to connect the app with the api in the class APILaravelClient.java located at ..\app\src\main\java\cl\ucn\disc\dsm\dcanto\news\network
-    - Install the app using the Android Studio IDE
-    - Run the app
+      - Change the baseurl to "http://[your hosting ip]:8000/api/" to connect the app with the api in the class APILaravelClient.java located at ..\app\src\main\java\cl\ucn\disc\dsm\dcanto\news\network
+      - Install the app using the Android Studio IDE
+      - Run the app
+##  Using the Web
+  - In your browser go to "http://[your hosting ip]:8000" to register the news
+  - Also you can use php artisan db:seed --class=NewsSeeder to fill the database with faker data
+  - If you are not registered, the system will ask you to do it with your email and a password
+  - Please use the format indicated in the form
 
-
+##  Using the App
+  - Launch the app
+  - If you want to refresh the news you can do a pull to refresh
+  - The news displayed are from two different API, NewsApi (external), and the LaravelApi developed by us
 ##  Technologies
   - PHP 8.0
   - PhpStorm 2020.3
