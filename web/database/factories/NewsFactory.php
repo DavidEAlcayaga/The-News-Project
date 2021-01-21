@@ -2,11 +2,15 @@
 
 namespace Database\Factories;
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
 use App\Models\News;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-//TODO agregar php docs
+/**
+ * The factory of news.
+ *
+ * Class NewsFactory
+ * @package Database\Factories
+ */
 class NewsFactory extends Factory
 {
     /**
@@ -34,7 +38,6 @@ class NewsFactory extends Factory
             'description' => $this->faker->text($maxNbChars = 100),
             'content' => $this->faker->jobTitle,
             'published_at' => ($this->faker->dateTime($max = 'now', $timezone = null)->getTimestamp()),
-            //DateTime('2008-04-25 08:37:17', 'UTC') to Timestamp
         ];
     }
 }

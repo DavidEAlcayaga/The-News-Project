@@ -15,6 +15,12 @@ use App\Models\News;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+/**
+ * The test to paginate the json api response.
+ *
+ * Class PaginateNewsTest
+ * @package Tests\Feature\News
+ */
 class PaginateNewsTest extends TestCase
 {
     use RefreshDatabase;

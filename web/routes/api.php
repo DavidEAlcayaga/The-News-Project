@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-//TODO agregar php docs
+
+// Route to an specified news
 Route::get('news/{news}', 'NewsController@show')->name('api.v1.news.show');
+
+// Route to the news index
 Route::get('news', 'NewsController@index')->name('api.v1.news.index');

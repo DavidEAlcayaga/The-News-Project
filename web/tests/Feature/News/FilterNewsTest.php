@@ -6,6 +6,12 @@ use App\Models\News;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+/**
+ * The test to filter the json api response.
+ *
+ * Class FilterNewsTest
+ * @package Tests\Feature\News
+ */
 class FilterNewsTest extends TestCase
 {
     use RefreshDatabase;

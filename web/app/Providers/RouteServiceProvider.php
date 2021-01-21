@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
+
     /**
      * The path to the "home" route for your application.
      *
@@ -37,6 +38,9 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->configureRateLimiting();
 
+        /**
+         * The route prefix to the api.
+         */
         $this->routes(function () {
             Route::prefix('api/v1')
                 ->middleware('api')

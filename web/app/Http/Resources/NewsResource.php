@@ -4,8 +4,15 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * The news resource to represent an item of news in json format.
+ *
+ * Class NewsResource
+ * @package App\Http\Resources
+ */
 class NewsResource extends JsonResource
 {
+
     /**
      * Transform the resource into an array.
      *

@@ -6,6 +6,12 @@ use App\Models\News;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+/**
+ * The test to sort the json api response.
+ *
+ * Class SortNewsTest
+ * @package Tests\Feature\News
+ */
 class SortNewsTest extends TestCase
 {
     use RefreshDatabase;

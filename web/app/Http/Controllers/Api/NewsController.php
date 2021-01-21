@@ -6,24 +6,34 @@ use App\Http\Controllers\Controller;
 use App\Models\News;
 use App\Http\Resources\NewsResource;
 use App\Http\Resources\NewsCollection;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
-
-//TODO agregar php docs y definir controllers distintos para api y webpage o un solo controlador
+/**
+ * The api controller.
+ *
+ * Class NewsController
+ * @package App\Http\Controllers\Api
+ */
 class NewsController extends Controller
 {
+
+    /**
+     * The index function to return a list of news in json format
+     *
+     * @return NewsCollection a list of news in json format
+     */
     public function index()
     {
-        //$query = News::query();
-
-        //$news = $query->applySorts()->jsonPaginate();
-
         $news = News::applyFilters()->applySorts()->jsonPaginate();
 
         return NewsCollection::make($news);
     }
 
+    /**
+     * The show function to return a specified news in json format.
+     *
+     * @param News $news the news to search
+     * @return NewsResource in json format
+     */
     public function show(News $news)
     {
         return NewsResource::make($news);
