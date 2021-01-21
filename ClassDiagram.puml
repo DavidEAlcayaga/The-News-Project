@@ -44,13 +44,13 @@ package "cl.ucn.disc.dsm.news" {
                 - next: String
 
                 + getFirst(): String
-                + setFirst(first: String): String
+                + setFirst(first: String): Void
                 + getLast(): String
-                + setLast(last: String): String
+                + setLast(last: String): Void
                 + getPrev(): String
-                + setPrev(Prev: String): String
+                + setPrev(Prev: String): Void
                 + getNext(): String
-                + setNext(Next: String): String
+                + setNext(Next: String): Void
             }
 
             Class JsonMetaLinks {
@@ -60,11 +60,11 @@ package "cl.ucn.disc.dsm.news" {
                 - active: boolean
 
                 + getUrl(): String
-                + setUrl(first: String): String
+                + setUrl(first: String): Void
                 + getLabel(): String
-                + setLabel(label: String): String
-                + getActive(): String
-                + setActive(active: boolean): boolean
+                + setLabel(label: String): Void
+                + getActive(): boolean
+                + setActive(active: boolean): Void
             }
 
             Class JsonNewsAttributes {
@@ -80,39 +80,123 @@ package "cl.ucn.disc.dsm.news" {
                 - Published_at: String
 
                 + getId(): String
-                + setId(first: String): String
+                + setId(id: String): Void
                 + getTitle(): String
-                + setTitle(label: String): String
+                + setTitle(title: String): Void
                 + getSource(): String
-                + setSource(first: String): String
+                + setSource(source: String): Void
                 + getAuthor(): String
-                + setAuthor(label: String): String
+                + setAuthor(author: String): Void
                 + getUrl(): String
-                + setUrl(first: String): String
+                + setUrl(url: String): Void
                 + getUrlImage(): String
-                + setUrlImage(label: String): String
+                + setUrlImage(urlImage: String): Void
                 + getDescription(): String
-                + setDescription(first: String): String
+                + setDescription(description: String): Void
                 + getContent(): String
-                + setContent(label: String): String
+                + setContent(content: String): Void
                 + getPublished_at(): String
-                + setPublished_at(first: String): String
+                + setPublished_at(Published_at: String): Void
             }
 
             Class JsonNewsData {
 
+                - data: List<JsonNewsItem>
+                - links: JsonDataLinks
+                - meta: JsonNewsPagination
+
+                + getData(): List
+                + setData(data: String): Void
+                + getLinks(): JsonDataLinks
+                + setLinks(links: String): Void
+                + getMeta(): JsonNewsPagination
+                + setMeta(meta: String): Void
             }
             Class JsonNewsItem {
+
+                - type: String
+                - id: String
+                - attributes: JsonNewsAttributes
+                - links: JsonNewsLinks
+
+                + getType(): String
+                + setType(type: String): Void
+                + getId(): String
+                + setId(id: String): Void
+                + getAttributes(): JsonNewsAttributes
+                + setAttributes(attributes: String): Void
+                + getLinks(): JsonNewsLinks
+                + setLinks(links: String): Void
 
             }
 
             Class JsonNewsLinks {
 
+                - newsLinks: String
+
+                + getNewsLinks(): String
+                + setNewsLinks(type: String): Void
             }
 
             Class JsonNewsPagination {
 
+                - current_page: Integer
+                - from: Integer
+                - last_page: Integer
+                - links: JsonMetaLinks
+                - path: String
+                - per_page: Integer
+                - to: Integer
+                - total: Integer
+
+                + getCurrent_page(): Integer
+                + setCurrent_page(id: Integer): Void
+                + getFrom(): Integer
+                + setFrom(title: Integer): Void
+                + getLast_page(): Integer
+                + setLast_page(source: Integer): Void
+                + getLinks(): JsonMetaLinks
+                + setLinks(author: JsonMetaLinks): Void
+                + getPath(): String
+                + setPath(url: String): Void
+                + getPer_page(): Integer
+                + setPer_page(urlImage: Integer): Void
+                + getTo(): Integer
+                + setTo(description: Integer): Void
+                + getTotal(): Integer
+                + setTotal(content: Integer): Void
             }
+        }
+
+        package "request" #9a9670 {
+
+           Class LaravelNewsRequest {
+
+              - sort: String
+              - sortParameter: String
+              - pageNumber: String
+              - pageSize: String
+
+              + getSort(): String
+              + setSort(id: String): Void
+              + getSortParameter(): String
+              + setSortParameter(sortParameter: String): Void
+              + getPageNumber(): String
+              + setPageNumber(pageNumber: String): Void
+              + getPageSize(): String
+              + setPageSize(pageSize: String): Void
+           }
+        }
+
+        package "response" #a932ca {
+
+           Class LaravelNewsResponse {
+
+              - jsonNewsData: List
+
+              + getJsonNewsData(): List
+              + setJsonNewsData(news: List): Void
+           }
         }
     }
 
@@ -175,6 +259,23 @@ package "cl.ucn.disc.dsm.news" {
             + toDate(dateString: String): ZonedDateTime
             + toDateString(date: ZonedDateTime): String
         }
+    }
+
+    package "network" #4dd1ff {
+
+       Class ApiLaravelClient {
+
+          Retrofit mRetrofit
+
+          + notNull(o: Object, message: String): void
+          + minSize(value: String, minSize: int, message: String): void
+       }
+
+       Interface ApiLaravelService {
+
+          + toDate(dateString: String): ZonedDateTime
+          + toDateString(date: ZonedDateTime): String
+       }
     }
 }
 
