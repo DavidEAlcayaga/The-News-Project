@@ -50,7 +50,7 @@
   - Room 2.2.5
 ## The Class Diagram
 
-![](ClassDiagram.puml)
+![](ClassDiagram.svg)
 
 <details><summary>PlantUML</summary>
 <p>
