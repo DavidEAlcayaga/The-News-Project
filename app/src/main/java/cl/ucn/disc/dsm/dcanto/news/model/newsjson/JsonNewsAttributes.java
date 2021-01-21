@@ -11,6 +11,10 @@
 package cl.ucn.disc.dsm.dcanto.news.model.newsjson;
 import java.util.Date.*;
 
+/**
+ *
+ * The data of the news recieved from laravelAPI
+ */
 public class JsonNewsAttributes {
 
   /**
@@ -55,7 +59,7 @@ public class JsonNewsAttributes {
   private String content;
 
   /**
-   * The Content.
+   * The Published_at.
    */
   private String published_at;
 

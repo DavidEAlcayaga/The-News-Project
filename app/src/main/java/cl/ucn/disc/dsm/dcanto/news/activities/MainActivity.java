@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
     Fresco.initialize(this);
 
     log.debug("onCreate ..");
@@ -154,8 +155,6 @@ public class MainActivity extends AppCompatActivity {
             // Get the news from NewsAPI (Internet!)
             List<News> listNews = contracts.retrieveNews(30);
 
-
-
             // Replace the data
             for (int i = 0; i < listNews.size()-1; i++) {
 
@@ -217,11 +216,9 @@ public class MainActivity extends AppCompatActivity {
     if(nightMode == AppCompatDelegate.MODE_NIGHT_YES){
 
       menu.findItem(R.id.night_mode).setTitle(R.string.day_mode);
-
     } else{
 
       menu.findItem(R.id.night_mode).setTitle(R.string.night_mode);
-
     }
 
     return true;
@@ -246,16 +243,13 @@ public class MainActivity extends AppCompatActivity {
       if(nightMode==AppCompatDelegate.MODE_NIGHT_YES){
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
       } else {
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-
       }
 
       // Recreate the activity for the theme change to take effect.
       recreate();
-
     }
 
     return true;

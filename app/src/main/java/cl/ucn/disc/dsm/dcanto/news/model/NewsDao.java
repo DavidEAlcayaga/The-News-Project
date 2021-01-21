@@ -18,6 +18,11 @@ import androidx.room.Query;
 
 import java.util.List;
 
+/**
+ *
+ * Fills the local DB and makes the query's
+ * to get and delete news
+ */
 @Dao
 public interface NewsDao {
 

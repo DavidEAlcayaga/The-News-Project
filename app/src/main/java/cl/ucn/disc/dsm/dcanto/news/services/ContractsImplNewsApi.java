@@ -71,9 +71,12 @@ public class ContractsImplNewsApi implements Contracts {
    * @return the News
    */
   private static News toNews(final Article article) {
+
     Validation.notNull(article, "Article null !?!");
+
     // Warning message?
     boolean needFix = false;
+
     // Fix the author null :(
     if(article.getAuthor() == null || article.getAuthor().length() == 0) {
       article.setAuthor("No author.");
@@ -112,6 +115,7 @@ public class ContractsImplNewsApi implements Contracts {
 
     // Warning message.
     if (needFix) {
+
       // Debug of Article
       log.warn("Article with invalid restrictions: {}.", ToStringBuilder.reflectionToString(
           article, ToStringStyle.MULTI_LINE_STYLE
@@ -143,9 +147,12 @@ public class ContractsImplNewsApi implements Contracts {
    * @return the News
    */
   private static News laravelNewstoNews(final JsonNewsAttributes jsonNewsAttributes) {
+
     Validation.notNull(jsonNewsAttributes, "Laravel News null !?!");
+
     // Warning message?
     boolean needFix = false;
+
     // Fix the author null :(
     if(jsonNewsAttributes.getAuthor() == null || jsonNewsAttributes.getAuthor().length() == 0) {
       jsonNewsAttributes.setAuthor("No author.");
@@ -184,6 +191,7 @@ public class ContractsImplNewsApi implements Contracts {
 
     // Warning message.
     if (needFix) {
+
       // Debug of Article
       log.warn("Article with invalid restrictions: {}.", ToStringBuilder.reflectionToString(
           jsonNewsAttributes, ToStringStyle.MULTI_LINE_STYLE
@@ -226,7 +234,6 @@ public class ContractsImplNewsApi implements Contracts {
     try {
 
       //Request to NewsApi
-
       List<Article> articles = newsApiService.getTopHeadlines(
           "technology", size
       );
@@ -240,6 +247,7 @@ public class ContractsImplNewsApi implements Contracts {
       return(this.resultToListOfNews(articles, laravelNews));
 
     } catch (IOException ex) {
+
       log.error("Error", ex);
       return null;
     }
@@ -260,7 +268,6 @@ public class ContractsImplNewsApi implements Contracts {
 
       // return article list
       return(this.articlesToListOfNews(articles));
-
     }else{
 
       // create new articles list and add laravelNewsList
@@ -270,7 +277,6 @@ public class ContractsImplNewsApi implements Contracts {
       // return new list
       return(resultList);
     }
-
   }
 
   private List<News> articlesToListOfNews(List<Article> articles){

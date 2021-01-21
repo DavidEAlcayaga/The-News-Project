@@ -10,6 +10,9 @@
 
 package cl.ucn.disc.dsm.dcanto.news.model.newsjson;
 
+/**
+ * Pagination of Json data
+ */
 public class JsonDataLinks {
 
   private String first;

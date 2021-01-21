@@ -236,13 +236,44 @@ package "cl.ucn.disc.dsm.news" {
         Class ContractsImplFaker {
 
             - theNews: List<News>
+
             + ContractsImplFaker()
+            + retrieveNews(size: Integer): List
+            + saveNews(news: News): void
         }
 
         Class AppDatabase {
 
            + getInstance(context: Context): AppDatabase
            + newsDao(): NewsDao
+        }
+
+        Class ContractsImplNewsApi {
+
+           - newsApiService: NewsApiService
+
+           + ContractsImplNewsApi(theApiKey: String)
+           + toNews(article: Article): News
+           + laravelNewstoNews(jsonNewsAttributes: JsonNewsAttributes): News
+           + retrieveNews(size: Integer): List
+           + resultToListOfNews(articles: List, laravelNews: List): List
+           + articleToListOfNews(articles: List): List
+           + laravelNewsToListOfNews(laravelNews: List): List
+        }
+
+        Class NewsApiService {
+
+           - apiKey: String
+           - apiService: APIService
+           - laravelApiService: ApiLaravelService
+
+           + NewsApiService(apiKey: String)
+           + getTopHeadlines(category: String, pageSize: Integer): List
+           + getLaravelNews(sort: String, sortParameter: String, pageSize: Integer): List
+           + parametersToQuery(sort: String, sortParameter: String, pageSize: Integer, pageNumber: Integer): ArrayList
+           + resultToListOfNews(articles: List, laravelNews: List): List
+           + articleToListOfNews(articles: List): List
+           + laravelNewsToListOfNews(laravelNews: List): List
         }
     }
 
@@ -265,16 +296,15 @@ package "cl.ucn.disc.dsm.news" {
 
        Class ApiLaravelClient {
 
-          Retrofit mRetrofit
+          - Retrofit mRetrofit
 
-          + notNull(o: Object, message: String): void
-          + minSize(value: String, minSize: int, message: String): void
+          + getRetrofit(): Retrofit
+          + getApiService(): ApiLaravelService
        }
 
        Interface ApiLaravelService {
 
-          + toDate(dateString: String): ZonedDateTime
-          + toDateString(date: ZonedDateTime): String
+          + getLaravelNews(Map <String, String> query): JsonNewsData
        }
     }
 }
@@ -323,10 +353,11 @@ ContractsImplFaker ..> Faker : <<use>>
 News *--> ZonedDateTime : -PublishedAt
 ContractsImplFaker *--> Logger : -log
 News ..> Validation
-News ..> Converters
 News ..> LongHashFunction : <<use>>
 News *--> Room : <<use>>
-AppDatabase *--> NewsDao : <<use>>
-AppDatabase ..> Converters : <<use>>
-
+AppDatabase *..> NewsDao : <<use>>
+AppDatabase --> Converters : <<use>>
+ApiLaravelClient ..> ApiLaravelService : <<use>>
+NewsApiService ..> ApiLaravelService : <<use>>
+ContractsImplNewsApi --> NewsApiService : <<use>>
 @enduml
