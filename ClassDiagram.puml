@@ -1,55 +1,332 @@
 @startuml
-package services #95F5ED{
-  interface Contracts {
-  retrieveNews(size: Integer): List<News>
-  save(news: News): void
-  }
-  class TestContractsImpl {
-    - theNews: List<News>
-    + ContractsImplFaker()
-  }
+
+package "cl.ucn.disc.dsm.news" {
+
+    package "model" #c1f77f {
+
+        Class News <<Entity>>{
+
+            - id: Long
+            - title: String
+            - source: String
+            - author: String
+            - url: String
+            - urlImage: String
+            - description: String
+            - content: String
+            - PublishedAt: ZonedDateTime
+
+            + News(..)
+            + getId(): String
+            + getTitle(): String
+            + getSource(): String
+            + getAuthor(): String
+            + getUrl(): String
+            + getUrlImage(): String
+            + getDescription(): String
+            + getContent(): String
+            + getPublishedAt(): ZonedDateTime
+        }
+
+        Interface NewsDao {
+
+            + insertNews(news: News): Long
+            + wipeData(): void
+        }
+
+        package "newsjson" #abffe3 {
+
+            Class JsonDataLinks {
+
+                - first: String
+                - last: String
+                - prev: String
+                - next: String
+
+                + getFirst(): String
+                + setFirst(first: String): Void
+                + getLast(): String
+                + setLast(last: String): Void
+                + getPrev(): String
+                + setPrev(Prev: String): Void
+                + getNext(): String
+                + setNext(Next: String): Void
+            }
+
+            Class JsonMetaLinks {
+
+                - url: String
+                - label: String
+                - active: boolean
+
+                + getUrl(): String
+                + setUrl(first: String): Void
+                + getLabel(): String
+                + setLabel(label: String): Void
+                + getActive(): boolean
+                + setActive(active: boolean): Void
+            }
+
+            Class JsonNewsAttributes {
+
+                - id: Long
+                - title: String
+                - source: String
+                - author: String
+                - url: String
+                - urlImage: String
+                - description: String
+                - content: String
+                - Published_at: String
+
+                + getId(): String
+                + setId(id: String): Void
+                + getTitle(): String
+                + setTitle(title: String): Void
+                + getSource(): String
+                + setSource(source: String): Void
+                + getAuthor(): String
+                + setAuthor(author: String): Void
+                + getUrl(): String
+                + setUrl(url: String): Void
+                + getUrlImage(): String
+                + setUrlImage(urlImage: String): Void
+                + getDescription(): String
+                + setDescription(description: String): Void
+                + getContent(): String
+                + setContent(content: String): Void
+                + getPublished_at(): String
+                + setPublished_at(Published_at: String): Void
+            }
+
+            Class JsonNewsData {
+
+                - data: List<JsonNewsItem>
+                - links: JsonDataLinks
+                - meta: JsonNewsPagination
+
+                + getData(): List
+                + setData(data: String): Void
+                + getLinks(): JsonDataLinks
+                + setLinks(links: String): Void
+                + getMeta(): JsonNewsPagination
+                + setMeta(meta: String): Void
+            }
+            Class JsonNewsItem {
+
+                - type: String
+                - id: String
+                - attributes: JsonNewsAttributes
+                - links: JsonNewsLinks
+
+                + getType(): String
+                + setType(type: String): Void
+                + getId(): String
+                + setId(id: String): Void
+                + getAttributes(): JsonNewsAttributes
+                + setAttributes(attributes: String): Void
+                + getLinks(): JsonNewsLinks
+                + setLinks(links: String): Void
+
+            }
+
+            Class JsonNewsLinks {
+
+                - newsLinks: String
+
+                + getNewsLinks(): String
+                + setNewsLinks(type: String): Void
+            }
+
+            Class JsonNewsPagination {
+
+                - current_page: Integer
+                - from: Integer
+                - last_page: Integer
+                - links: JsonMetaLinks
+                - path: String
+                - per_page: Integer
+                - to: Integer
+                - total: Integer
+
+                + getCurrent_page(): Integer
+                + setCurrent_page(id: Integer): Void
+                + getFrom(): Integer
+                + setFrom(title: Integer): Void
+                + getLast_page(): Integer
+                + setLast_page(source: Integer): Void
+                + getLinks(): JsonMetaLinks
+                + setLinks(author: JsonMetaLinks): Void
+                + getPath(): String
+                + setPath(url: String): Void
+                + getPer_page(): Integer
+                + setPer_page(urlImage: Integer): Void
+                + getTo(): Integer
+                + setTo(description: Integer): Void
+                + getTotal(): Integer
+                + setTotal(content: Integer): Void
+            }
+        }
+
+        package "request" #9a9670 {
+
+           Class LaravelNewsRequest {
+
+              - sort: String
+              - sortParameter: String
+              - pageNumber: String
+              - pageSize: String
+
+              + getSort(): String
+              + setSort(id: String): Void
+              + getSortParameter(): String
+              + setSortParameter(sortParameter: String): Void
+              + getPageNumber(): String
+              + setPageNumber(pageNumber: String): Void
+              + getPageSize(): String
+              + setPageSize(pageSize: String): Void
+           }
+        }
+
+        package "response" #a932ca {
+
+           Class LaravelNewsResponse {
+
+              - jsonNewsData: List
+
+              + getJsonNewsData(): List
+              + setJsonNewsData(news: List): Void
+           }
+        }
+    }
+
+    package "adapters" #7dacff {
+
+        Class NewsItem {
+
+            - FORMATTER: DateTimeFormatter
+
+            + NewsItem(news: news)
+            + getViewHolder(view: View): ViewHolder
+            + getType(): int
+            + getLayoutRes(): int
+            + bindView(holder: ViewHolder, payloads: List<Object>): void
+        }
+    }
+
+    package "activities" #F7C56D {
+
+        Class MainActivity {
+
+            + onCreate(savedInstance: Bundle): void
+            + onRefresh(): void
+            + onCreateOptionsMenu(menu: Menu): boolean
+            + onOptionsItemSelected(item: MenuItem): boolean
+        }
+    }
+
+    package "services" #daabfa {
+
+        Interface Contracts {
+
+            + retrieveNews(size: Integer): List<News>
+            + saveNews(news: News): void
+        }
+
+        Class ContractsImplFaker {
+
+            - theNews: List<News>
+            + ContractsImplFaker()
+        }
+
+        Class AppDatabase {
+
+           + getInstance(context: Context): AppDatabase
+           + newsDao(): NewsDao
+        }
+    }
+
+    package "utils" #c1f6fc {
+
+        Class Validation {
+
+            + notNull(o: Object, message: String): void
+            + minSize(value: String, minSize: int, message: String): void
+        }
+
+        Class Converters {
+
+            + toDate(dateString: String): ZonedDateTime
+            + toDateString(date: ZonedDateTime): String
+        }
+    }
+
+    package "network" #4dd1ff {
+
+       Class ApiLaravelClient {
+
+          Retrofit mRetrofit
+
+          + notNull(o: Object, message: String): void
+          + minSize(value: String, minSize: int, message: String): void
+       }
+
+       Interface ApiLaravelService {
+
+          + toDate(dateString: String): ZonedDateTime
+          + toDateString(date: ZonedDateTime): String
+       }
+    }
 }
-package model #D3F5C6{
-  class News <<entity>>{
-    - id: Long
-    - title: String
-    - source: String
-    - author: String
-    - url: String
-    - urlImage: String
-    - description: String
-    - content: String
-    + News(..)
-    + getId(): String
-    + getTitle(): String
-    + getSource(): String
-    + getAuthor(): String
-    + getUrl(): String
-    + getUrlImage(): String
-    + getDescription(): String
-    + getContent(): String
-    + getPublishedAt(): ZonedDateTime
-  }
+
+package "externals" #fcc1ea {
+
+    package "com.github.javafaker" #fcc1ea {
+
+        Class Faker {
+           ...
+        }
+    }
+
+    package "org.slf4j" #fcc1ea {
+
+        Class Logger {
+           ...
+        }
+    }
+
+    package "org.threeten.bp" #fcc1ea {
+
+        Class ZonedDateTime {
+           ...
+        }
+    }
+
+    package "net.openhft.hashing" #fcc1ea {
+
+       Class LongHashFunction {
+           ...
+       }
+    }
+
+    package "android.room." #fcc1ea {
+
+       Class Room {
+           ...
+       }
+    }
 }
-package org.threeten.bp #F5B0AE{
-  class ZonedDateTime{
-  ...
-  }
-}
-package com.github.javafaker #F5B0AE{
-  class Faker{
-  ...
-  }
-}
-package org.slf4j #F5B0AE{
-  class Logger{
-  ...
-  }
-}
-ZonedDateTime <--* News: - publishedAt
-Contracts ..> News: <<use>>
-Contracts <|.. TestContractsImpl
-TestContractsImpl ..> com.github.javafaker: <<use>>
-TestContractsImpl *--> org.slf4j: -log
+
+ContractsImplFaker ..|> Contracts
+Contracts ..>  News : <<use>>
+ContractsImplFaker ..> Faker : <<use>>
+News *--> ZonedDateTime : -PublishedAt
+ContractsImplFaker *--> Logger : -log
+News ..> Validation
+News ..> Converters
+News ..> LongHashFunction : <<use>>
+News *--> Room : <<use>>
+AppDatabase *--> NewsDao : <<use>>
+AppDatabase ..> Converters : <<use>>
 
 @enduml
